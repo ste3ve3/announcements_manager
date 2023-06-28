@@ -15,6 +15,7 @@ import ProjectCard from 'components/cards/ProjectCard';
 import IosSwitch from 'components/extended/IosSwitch';
 import ProjectsLoaders from 'components/cards/Skeleton/ProjectsLoaders';
 import { compareObj } from 'utils/constants';
+import CarsCard from 'components/cards/CarsCard';
 
 const initFormData = {
     projectImage: '',
@@ -30,13 +31,15 @@ const initFormData = {
 
 const initState = { loading: false, error: null };
 
-const ProjectsPage = ({ projects, paginationDetails, getProjects, addProject, editProject, deleteProject }) => {
+const CarsPage = ({ projects, paginationDetails, getProjects, addProject, editProject, deleteProject }) => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [formData, setFormData] = useState(initFormData);
     const [state, setState] = useState(initState);
     const [currentProject, setCurrentProject] = useState(null);
 
-    const { data, isError, isLoading } = useFetcher('/projects?allFields=true');
+    const { data, isError, isLoading } = useFetcher('/registercar?allFields=true');
+
+    console.log(data)
 
     useEffect(() => {
         if (data?.data?.length) {
@@ -132,7 +135,7 @@ const ProjectsPage = ({ projects, paginationDetails, getProjects, addProject, ed
     return (
         <div>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
-                <Typography variant="h3">Cathedral's Projects</Typography>
+                <Typography variant="h3">Registered Cars</Typography>
                 <Sidebar
                     title={currentProject ? 'Update Project' : 'New Project'}
                     openSidebar={openSidebar}
@@ -211,16 +214,22 @@ const ProjectsPage = ({ projects, paginationDetails, getProjects, addProject, ed
                 <Grid container spacing={3} sx={{ my: 1 }}>
                     {projects.map((project, index) => {
                         return (
-                            <Grid key={index} item xs={12} sm={6} md={3}>
-                                <ProjectCard
-                                    project={project}
+                                <CarsCard
+                                    car={project}
                                     isActive={currentProject?._id === project._id}
                                     onClick={(action) => {
                                         setCurrentProject(project);
                                         action === 'edit' ? handleOpenSidebar() : handleOpenModal();
                                     }}
                                 />
-                            </Grid>
+                                // <ProjectCard
+                                //     project={project}
+                                //     isActive={currentProject?._id === project._id}
+                                //     onClick={(action) => {
+                                //         setCurrentProject(project);
+                                //         action === 'edit' ? handleOpenSidebar() : handleOpenModal();
+                                //     }}
+                                // /> 
                         );
                     })}
                 </Grid>
@@ -272,4 +281,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CarsPage);

@@ -62,7 +62,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
 
     return (
-        <Typography>Cathedrale Saint Michael Dashboard</Typography>
+        <Typography>Magerwa VCC Admin Dashboard</Typography>
     );
 };
 
@@ -81,7 +81,7 @@ const SearchSection = () => {
     return (
         <>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Cathedrale Saint Michael Dashboard</Typography>
+            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Magerwa VCC Admin Dashboard</Typography>
             </Box>
         </>
     );

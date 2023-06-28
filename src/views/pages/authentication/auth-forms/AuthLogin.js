@@ -54,7 +54,7 @@ const FirebaseLogin = ({ ...others }) => {
         try {
             setState((prev) => ({ ...prev, loading: true }));
                 await toast.promise(
-                    API.post(`/auth/loginUser?isDashboardAuth=true`, formData),
+                    API.post(`/auth/login?isDashboardAuth=true`, formData),
                     {
                         loading: `Checking credentials, please wait...`,
                         success: `Logged In Successfully!`,
@@ -134,78 +134,6 @@ const FirebaseLogin = ({ ...others }) => {
 
     return (
         <>
-            <Grid container direction="column" justifyContent="center" spacing={2}>
-                <Grid item xs={12}>
-                    {googleAuthError && (
-                        <Box sx={{ my: 2, color: 'red' , fontSize: '28px' }}>
-                            <FormHelperText error sx={{ fontSize: '14px', fontWeight: 'bold', textAlign: 'center' }}>{googleAuthError}</FormHelperText>
-                        </Box>
-                    )}
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            onClick={GoogleAuthentication}
-                            size="large"
-                            variant="outlined"
-                            startIcon={state.googleLoading ? <CircularProgress size={20} color="inherit" /> : undefined}
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100],
-                            }}
-                        >
-                            {
-                                state.googleLoading ? 
-                                    "Signing In..."
-                                :
-                                <>
-                                    <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                        <img src={Google} alt="google" width={17} height={17} style={{ marginRight: matchDownSM ? 8 : 16, marginTop: 6 }} />
-                                    </Box>
-                                    Sign in with Google
-                                </>  
-                            }
-                        </Button>
-                    </AnimateButton>
-                </Grid>
-                <Grid item xs={12}>
-                    <Box
-                        sx={{
-                            alignItems: 'center',
-                            display: 'flex'
-                        }}
-                    >
-                        <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-                        <Button
-                            variant="outlined"
-                            sx={{
-                                cursor: 'unset',
-                                m: 2,
-                                py: 0.5,
-                                px: 7,
-                                borderColor: `${theme.palette.grey[100]} !important`,
-                                color: `${theme.palette.grey[900]}!important`,
-                                fontWeight: 500,
-                                borderRadius: `${customization.borderRadius}px`
-                            }}
-                            disableRipple
-                            disabled
-                        >
-                            OR
-                        </Button>
-
-                        <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} container alignItems="center" justifyContent="center">
-                    <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle1">Sign in with Email address</Typography>
-                    </Box>
-                </Grid>
-            </Grid>
-
             <Formik>
                 <form noValidate onSubmit={handleNormalLogin} {...others}>
                     <FormControl fullWidth sx={{ ...theme.typography.customInput }}>

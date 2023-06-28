@@ -15,7 +15,7 @@ const Login = () => {
 
     return (
         <AuthWrapper1>
-            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }} >
+            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh', boxShadow: "2px 2px grey" }} >
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
@@ -23,7 +23,7 @@ const Login = () => {
                                 <Grid container spacing={2} alignItems="center" justifyContent="center" >
                                     <Grid item sx={{ mb: 3 }}>
                                         <Link to="/">
-                                            <Logo />
+                                            <Logo dimension={200}/>
                                         </Link>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -41,7 +41,7 @@ const Login = () => {
                                                         variant='h3'
                                                         textAlign='center'
                                                     >
-                                                        Cathedrale Saint Michael Dashboard
+                                                        Magerwa VCC Admin Dashboard
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"

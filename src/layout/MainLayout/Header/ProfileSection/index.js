@@ -77,7 +77,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
         try {
             setState((prev) => ({ ...prev, loading: true }));
                 await toast.promise(
-                    API.post(`/auth/logoutUser`),
+                    API.post(`/auth/logout`),
                     {
                         loading: `Signing out, please wait...`,
                         success: `Logged out Successfully!`,

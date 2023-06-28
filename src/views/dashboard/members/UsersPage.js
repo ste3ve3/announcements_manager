@@ -37,7 +37,7 @@ import DataWidget from 'components/Global/DataWidget';
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  { id: 'type', label: 'Account Type', alignRight: false },
+  { id: 'nationalId', label: 'National ID', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
   { id: '' },
@@ -88,7 +88,7 @@ const UsersPage = ({
   currentUser,
 }) => {
 
-  const { data, isError, isLoading } = useFetcher('/auth/getAllUsers');
+  const { data, isError, isLoading } = useFetcher('/auth');
 
   const [page, setPage] = useState(0);
 
@@ -110,6 +110,7 @@ const UsersPage = ({
       }
   }, [data?.registeredUsers?.length]);
 
+  console.log(data)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -171,7 +172,7 @@ const UsersPage = ({
       setState(initState);
       try {
           setState((prev) => ({ ...prev, loading: true }));
-          await toast.promise(API.delete(`/auth/deleteUser?userId=${id}`), {
+          await toast.promise(API.delete(`/auth?userId=${id}`), {
               loading: `Hold on, we are deleting this user from our system.`,
               success: `User deleted successfully`,
               error: (error) => {
@@ -285,7 +286,7 @@ const UsersPage = ({
                               handleClick(event, row.name)
                             }
                             editRole={editUserRole}
-                            currentUserId={currentUser._id}
+                            currentUserId={currentUser?._id}
                             // currentUserRole={currentUser.role}
                             deleteUser={handleDeleteUser}
                           />

@@ -110,7 +110,7 @@ const Dashboard = ({
 
     return (
         <Grid container spacing={gridSpacing}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
                     <Grid item lg={4} md={6} sm={6} xs={12}>
                         <EarningCard isLoading={priestsLoading} icon={<IconPray fontSize="inherit" />} title="Cathedral Priests" count={priests?.length} />
@@ -140,7 +140,7 @@ const Dashboard = ({
                         <EarningCard isLoading={announcementsLoading} icon={<IconUnlink fontSize="inherit" />} title="Announcements" count={announcements?.length} />
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Grid>
     );
 };

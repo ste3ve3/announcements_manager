@@ -37,7 +37,7 @@ const UserListTile = ({
     email,
     isVerified,
     picture,
-    accountType,
+    nationalId,
   } = user;
   //Current role state
   const [currentRole, setCurrentRole] = useState(role);
@@ -107,7 +107,7 @@ const UserListTile = ({
           </Link>
         </TableCell>
 
-        <TableCell align="center">{accountType}</TableCell>
+        <TableCell align="center">{nationalId}</TableCell>
 
         <TableCell align="center">
           {isVerified ? 'Yes' : 'No'}
@@ -186,7 +186,7 @@ const UserListTile = ({
         subTitle={
           openModal.action === 'DELETE'
             ? `Are you sure do you want to delete this user? He won't be able to login using this account!`
-            : `This action will change what a user can or can't access on Cathedrale Saint Michael Platform!`
+            : `This action will change what a user can or can't access on Magerwa VCC Platform!`
         }
         open={openModal.show}
         handleClose={handleCloseModal}

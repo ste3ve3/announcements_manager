@@ -17,29 +17,21 @@ const pages = {
     type: 'group',
     children: [
         {
-            id: 'calendar',
-            title: 'Calendar',
-            url: '/content/calendar',
+            id: 'registeredcars',
+            title: 'Registered Cars',
+            url: '/content/cars',
             // target: true,
             icon: icons.IconCalendar,
             type: 'item'
         },
         {
-            id: 'projects',
-            title: 'Projects',
-            url: '/content/projects',
+            id: 'auction',
+            title: 'Auction Cars',
+            url: '/content/auction',
             // target: true,
             icon: icons.IconBrandAsana,
             type: 'item'
         },
-        {
-            id: 'blogs',
-            title: 'Blogs',
-            url: '/content/blogs',
-            // target: true,
-            icon: IconBrandDisqus,
-            type: 'item'
-        }
     ]
 };
 

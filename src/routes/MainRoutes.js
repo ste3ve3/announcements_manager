@@ -4,15 +4,13 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'components/Loadable';
 import NotFound from 'views/pages/NotFound';
-import ProjectsPage from 'views/pages/ProjectsPage';
+import CarsPage from 'views/pages/CarsPage';
 import CalendarPage from 'views/pages/calendar/CalendarPage';
-import LeadersPage from 'views/dashboard/members/LeadersPage';
 import UsersPage from 'views/dashboard/members/UsersPage';
 import BlogsPage from 'views/pages/blog/BlogsPage';
 import AddBlogForm from 'components/blog/AddBlogForm';
 import EditBlog from 'views/pages/blog/EditBlog';
 import TestimonialsPage from 'views/utilities/TestimonialsPage';
-import FathersPage from 'views/dashboard/members/FathersPage';
 import MessagesPage from 'views/utilities/MessagesPage';
 import NewsPage from 'views/utilities/NewsPage';
 import AnnouncementsPage from 'views/utilities/AnnouncementsPage';
@@ -43,17 +41,9 @@ const MainRoutes = {
             path: 'members',
             children: [
                 {
-                    path: 'leaders',
-                    element: <LeadersPage />
-                },
-                {
                     path: 'users',
                     element: <UsersPage />
                 },
-                {
-                    path: 'fathers',
-                    element: <FathersPage />
-                }
             ]
         },
 
@@ -82,19 +72,11 @@ const MainRoutes = {
             path: 'content',
             children: [
                 {
-                    path: 'blogs',
-                    children: [
-                        { path: '', element: <BlogsPage /> },
-                        { path: 'new', element: <AddBlogForm /> },
-                        { path: 'edit', children: [{ path: ':slug', element: <EditBlog /> }] }
-                    ]
+                    path: 'cars',
+                    element: <CarsPage />
                 },
                 {
-                    path: 'projects',
-                    element: <ProjectsPage />
-                },
-                {
-                    path: 'calendar',
+                    path: 'auction',
                     element: <CalendarPage />
                 }
             ]
