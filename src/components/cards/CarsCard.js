@@ -74,8 +74,9 @@ CarsCard.propTypes = {
   index: PropTypes.number,
 };
 
-export default function CarsCard({ car, onDelete, onPublish }) {
+export default function CarsCard({ car, onDelete, onClearance, handlePreview, onMove }) {
   const {
+    _id: id,
     carImage,
     carName,
     brand,
@@ -84,8 +85,6 @@ export default function CarsCard({ car, onDelete, onPublish }) {
     transmission,
     passengerCapacity,
     ownedBy,
-    slug,
-    isPublic,
   } = car;
   const nav = useNavigate();
 
@@ -101,10 +100,28 @@ export default function CarsCard({ car, onDelete, onPublish }) {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => {
     setOpenModal(true);
+    handleCloseMenu();
   };
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setOpenModal(false); 
+  };
+
+  const [openClearanceModal, setOpenClearanceModal] = useState(false);
+  const handleOpenClearanceModal = () => {
+    setOpenClearanceModal(true);
     handleCloseMenu();
+  };
+  const handleCloseClearanceModal = () => {
+    setOpenClearanceModal(false);
+  };
+
+  const [openMoveModal, setOpenMoveModal] = useState(false);
+  const handleOpenMoveModal = () => {
+    setOpenMoveModal(true);
+    handleCloseMenu();
+  };
+  const handleCloseMoveModal = () => {
+    setOpenMoveModal(false);
   };
 
   return (
@@ -124,8 +141,8 @@ export default function CarsCard({ car, onDelete, onPublish }) {
                 color: 'background.paper',
               }}
             />
-            <StyledAvatar alt={car.ownedBy.names}>
-              {car.ownedBy.names.charAt(0).toUpperCase()}
+            <StyledAvatar alt={car?.ownedBy?.names}>
+              {car?.ownedBy?.names.charAt(0).toUpperCase()}
             </StyledAvatar>
 
             <StyledCover alt={carName} src={carImage} />
@@ -143,7 +160,7 @@ export default function CarsCard({ car, onDelete, onPublish }) {
               fontWeight="bold"
               sx={{ color: 'text.disabled', display: 'block' }}
             >
-              Owned by _ {ownedBy.names}
+              Owned by _ {ownedBy?.names}
             </Typography>
             <Stack
               direction="row"
@@ -154,10 +171,7 @@ export default function CarsCard({ car, onDelete, onPublish }) {
               <StyledcarName
                 color="inherit"
                 variant="subcarName2"
-                underline="hover"
-                href={`${process.env.REACT_APP_WEB_URL}/blog/${slug}`}
-                target="_blank"
-                component="a"
+                underline="none"
               >
                 {carName}
               </StyledcarName>
@@ -215,28 +229,27 @@ export default function CarsCard({ car, onDelete, onPublish }) {
       >
         <MenuItem
           sx={{ color: 'primary.main' }}
-          href={`${process.env.REACT_APP_WEB_URL}/blog/${slug}`}
           target="_blank"
-          component="a"
+          onClick={() => {
+            handleCloseMenu();
+            handlePreview();
+          }}
         >
           <Iconify icon={'eva:eye-fill'} sx={{ mr: 2 }} />
           Preview
         </MenuItem>
         <MenuItem
           sx={{ color: 'success.main' }}
-          onClick={() => {
-            handleCloseMenu();
-            onPublish();
-          }}
+          onClick={handleOpenClearanceModal}
         >
-          <Iconify icon={'eva:external-link-fill'} sx={{ mr: 2 }} />
-          {isPublic === true ? 'Unpublish' : 'Publish'}
+          <Iconify icon={'eva:checkmark-circle-2-outline'} sx={{ mr: 2 }} />
+          Clearance
         </MenuItem>
         <MenuItem
-          onClick={() => nav(`/dashboard/blogs/edit/${slug}`)}
+          onClick={handleOpenMoveModal}
         >
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
+          <Iconify icon={'eva:external-link-fill'} sx={{ mr: 2 }} />
+          Move
         </MenuItem>
 
         <MenuItem
@@ -248,15 +261,37 @@ export default function CarsCard({ car, onDelete, onPublish }) {
         </MenuItem>
       </Popover>
       <ModalDialog
-        carName="Delete Blog?"
-        subcarName={`Are you sure do you want to delete this blog?`}
+        title="Car Clearance?"
+        subTitle={`Are you sure you want to clear this car?`}
+        item={carName}
+        open={openClearanceModal}
+        handleClose={handleCloseClearanceModal}
+        handleClickOk={() => {
+          handleCloseClearanceModal();
+          onClearance(id);
+      }}
+      />
+      <ModalDialog
+        title="Move car to auction?"
+        subTitle={`Are you sure you want to move this car to auction?`}
+        item={carName}
+        open={openMoveModal}
+        handleClose={handleCloseMoveModal}
+        handleClickOk={() => {
+          handleCloseMoveModal();
+          onMove(id);
+      }}
+      />
+      <ModalDialog
+        title="Delete Car?"
+        subTitle={`Are you sure you want to delete this car?`}
         item={carName}
         open={openModal}
         handleClose={handleCloseModal}
         handleClickOk={() => {
           handleCloseModal();
-          onDelete();
-        }}
+          onDelete(id);
+      }}
       />
     </>
   );

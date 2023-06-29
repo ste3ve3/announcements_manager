@@ -6,11 +6,10 @@ export const SET_FONT_FAMILY = "@customization/SET_FONT_FAMILY";
 export const SET_BORDER_RADIUS = "@customization/SET_BORDER_RADIUS";
 
 //Projects
-export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
-export const PROJECT_ERROR = "PROJECT_ERROR";
-export const ADD_PROJECT = "ADD_PROJECT";
-export const EDIT_PROJECT = "EDIT_PROJECT";
-export const DELETE_PROJECT = "DELETE_PROJECT";
+export const GET_ALL_CARS = "GET_ALL_CARS";
+export const CAR_ERROR = "CAR_ERROR";
+export const EDIT_CAR = "EDIT_CAR";
+export const DELETE_CAR = "DELETE_CAR";
 
 //Testimonials
 export const GET_ALL_TESTIMONIALS = "GET_ALL_TESTIMONIALS";

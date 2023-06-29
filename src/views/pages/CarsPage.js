@@ -1,125 +1,81 @@
-import { Box, CardActions, Grid, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { Grid, Box, Stack, TextField, Typography, AppBar, Toolbar, IconButton, Card, Divider } from '@mui/material';
 import { API, useFetcher } from 'api';
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import CloseIcon from '@mui/icons-material/Close';
 import { connect } from 'react-redux';
-import { addProject, deleteProject, editProject, getAllProjects } from 'store/actions/project';
-import ChooseFileImage from 'components/Global/ChooseFileImage';
+import { deleteCar, editCar, getAllCars } from 'store/actions/cars';
 import DataWidget from 'components/Global/DataWidget';
 import DatePickerValue from 'components/Global/DatePicker';
-import ModalDialog from 'components/Global/ModalDialog';
+import TimePickerValue from 'components/Global/TimePicker';
+import LaunchIcon from '@mui/icons-material/Launch';
 import Sidebar from 'components/Global/Sidebar';
 import ProjectCard from 'components/cards/ProjectCard';
 import IosSwitch from 'components/extended/IosSwitch';
 import ProjectsLoaders from 'components/cards/Skeleton/ProjectsLoaders';
 import { compareObj } from 'utils/constants';
 import CarsCard from 'components/cards/CarsCard';
+import FullScreenModel from 'components/Global/FullScreenModel';
+import FeatureLabel from './elements/FeatureLabel';
 
 const initFormData = {
-    projectImage: '',
-    isSponsored: false,
-    category: 'on going',
-    Personnel: '',
-    startingDate: '',
-    endingDate: '',
-    description: '',
-    smallDescription: '',
-    projectTitle: ''
+    auctionDate: '',
+    auctionTime: '',
+    auctionLocation: '',
+    locationMap: '',
+    contactPhone1: '',
+    contactPhone2: '',
+    contactEmail: '',
+    isPublic: '',
 };
 
 const initState = { loading: false, error: null };
 
-const CarsPage = ({ projects, paginationDetails, getProjects, addProject, editProject, deleteProject }) => {
+const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [formData, setFormData] = useState(initFormData);
     const [state, setState] = useState(initState);
-    const [currentProject, setCurrentProject] = useState(null);
+    const [currentCar, setCurrentCar] = useState(null);
 
-    const { data, isError, isLoading } = useFetcher('/registercar?allFields=true');
-
-    console.log(data)
+    const { data, isError, isLoading } = useFetcher('/registercar?cleared=false&perPage=1000000');
 
     useEffect(() => {
         if (data?.data?.length) {
-            getProjects({ projects: data?.data, paginationDetails: data?.paginationDetails });
+            getRegisteredCars({ registeredCars: data?.data });
         }
     }, [data?.data?.length]);
 
     useEffect(() => {
-        if (currentProject) {
+        if (currentCar) {
             setFormData({
-                projectImage: currentProject.projectImage,
-                isSponsored: currentProject.isSponsored,
-                category: currentProject.category,
-                Personnel: currentProject.Personnel,
-                startingDate: currentProject.startingDate,
-                endingDate: currentProject.endingDate,
-                description: currentProject.description,
-                smallDescription: currentProject.smallDescription,
-                projectTitle: currentProject.projectTitle
+                auctionDate: currentCar.auctionDate,
+                auctionTime: currentCar.auctionTime,
+                auctionLocation: currentCar.auctionLocation,
+                locationMap: currentCar.locationMap,
+                contactPhone1: currentCar.contactPhone1,
+                contactPhone2: currentCar.contactPhone2,
+                contactEmail: currentCar.contactEmail,
             });
         } else {
             setFormData(initFormData);
         }
-    }, [currentProject]);
+    }, [currentCar]);
 
-    const handleChange = (name, value) => {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+    console.log(formData);
 
-    const handleSubmit = async () => {
-        setState(initState);
-        try {
-            setState((prev) => ({ ...prev, loading: true }));
-            if (currentProject) {
-                const newObj = compareObj(currentProject, formData);
-                if (!Object.keys(newObj).length) {
-                    toast.error('No changes made', { position: 'top-right' });
-                    return;
-                }
-                const result = await toast.promise(
-                    API.patch(`/projects/update?slug=${currentProject.slug}`, newObj),
-                    {
-                        loading: `Updating project, please wait...`,
-                        success: `Project ${currentProject.projectTitle} updated successfully!`,
-                        error: `Something went wrong while updating project`
-                    },
-                    { position: 'top-right' }
-                );
-                editProject(result.data.data);
-                setCurrentProject(null);
-            } else {
-                const result = await toast.promise(
-                    API.post(`/projects/create`, formData),
-                    {
-                        loading: `Adding project, please wait...`,
-                        success: `Project added successfully!`,
-                        error: `Something went wrong while adding project`
-                    },
-                    { position: 'top-right' }
-                );
-                addProject(result.data.data);
-            }
-            setFormData(initFormData);
-            setOpenSidebar(false);
-        } catch (error) {
-            setState((prev) => ({
-                ...prev,
-                error: error.response?.data?.message || error.message || 'Unknown error occured, please try again.'
-            }));
-        } finally {
-            setState((prev) => ({ ...prev, loading: false }));
-        }
-    };
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
     const handleOpenSidebar = () => {
         setOpenSidebar(true);
     };
     const handleCloseSidebar = () => {
         if (state.loading) return;
         setOpenSidebar(false);
-        setCurrentProject(null);
+        setCurrentCar(null);
         setState(initState);
     };
 
@@ -129,155 +85,306 @@ const CarsPage = ({ projects, paginationDetails, getProjects, addProject, editPr
     };
     const handleCloseModal = () => {
         setOpenModal(false);
-        setCurrentProject(null);
+        setCurrentCar(null);
     };
+
+    const [openFullModal, setOpenFullModal] = React.useState(false);
+
+    const handleClickOpenFullModal = () => {
+        setOpenFullModal(true);
+    };
+
+    const handleCloseFullModal = () => {
+        setOpenFullModal(false);
+        setCurrentCar(null);
+    };
+
+    const handleCarClearance = async (id) => {
+        const result = await toast.promise(
+            API.patch(`/registercar/carClearance?carId=${id}`),
+            {
+                loading: `Clearing car, please wait...`,
+                success: `Car cleared successfully!`,
+                error: `Something went wrong while clearing this car, please try again!`
+            },
+            { position: 'top-center' }
+        );
+        editCar(id)
+      }; 
+
+    const handleDeleteCar = async (id) => {
+        await toast.promise(
+            API.delete(`/registercar?carId=${id}`),
+            {
+                loading: `Deleting car, please wait...`,
+                success: `Car deleted successfully!`,
+                error: `Something went wrong while deleting this car, please try again!`
+            },
+            { position: 'top-center' }
+        );
+        deleteCar(id)
+      };
 
     return (
         <div>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="h3">Registered Cars</Typography>
                 <Sidebar
-                    title={currentProject ? 'Update Project' : 'New Project'}
+                    title='Move to auction'
                     openSidebar={openSidebar}
+                    hideButton
                     onOpenSidebar={() => {
-                        setCurrentProject(null);
+                        setCurrentCar(null);
                         handleOpenSidebar();
                     }}
                     onCloseSidebar={handleCloseSidebar}
-                    handleSubmit={handleSubmit}
+                    // registeredCars
                     state={state}
                 >
-                    <TextField
-                        label="Title"
-                        color="secondary"
-                        value={formData.projectTitle}
-                        onChange={(e) => handleChange('projectTitle', e.target.value)}
-                        fullWidth
-                        required
-                    />
-                    <TextField
-                        label="Introduction"
-                        color="secondary"
-                        multiline
-                        rows={4}
-                        value={formData.smallDescription}
-                        onChange={(e) => handleChange('smallDescription', e.target.value)}
-                        fullWidth
-                        required
-                    />
-                    <TextField
-                        label="Description"
-                        color="secondary"
-                        multiline
-                        rows={6}
-                        value={formData.description}
-                        onChange={(e) => handleChange('description', e.target.value)}
-                        fullWidth
-                        required
-                    />
-                    <ChooseFileImage
-                        selected={formData.projectImage}
-                        title="Project Image"
-                        onSelect={(selected) => handleChange('projectImage', selected)}
-                    />
-
                     <DatePickerValue
-                        label="Starting Date"
-                        value={formData.startingDate}
-                        onChange={(val) => handleChange('startingDate', val.$d)}
+                        label="Auction Date"
+                        name="auctionDate"
+                        onChange={handleChange}  
                     />
-                    <DatePickerValue
-                        label="Ending Date"
-                        value={formData.endingDate}
-                        onChange={(val) => handleChange('endingDate', val.$d)}
+                    <TimePickerValue
+                        label="Auction Time"
+                        name="auctionTime"
+                        onChange={handleChange}
                     />
-
                     <TextField
-                        label="Personnel"
+                        label="Auction Location"
                         color="secondary"
-                        value={formData.Personnel}
-                        onChange={(e) => handleChange('Personnel', e.target.value)}
+                        name="auctionLocation"
+                        onChange={handleChange}
                         fullWidth
-                        required
+                    />
+                    <TextField
+                        label="Location Map"
+                        color="secondary"
+                        name="locationMap"
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                    <Stack direction="row" alignItems="center" gap="3px">
+                        <Typography variant="body2" color="secondary" fontSize="small" component="a" target='__blank' href='https://www.google.com/maps'>Search Location</Typography>
+                        <LaunchIcon color='secondary' fontSize='small'/>
+                    </Stack>
+                    <TextField
+                        label="Contact Phone 1"
+                        type='number'
+                        color="secondary"
+                        name="contactPhone1"
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Contact Phone 2"
+                        type='number'
+                        color="secondary"
+                        name="contactPhone2"
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Contact Email"
+                        type='email'
+                        color="secondary"
+                        name="contactEmail"
+                        onChange={handleChange}
+                        fullWidth
                     />
 
-                    <IosSwitch value={formData.isSponsored} onChange={(value) => handleChange('isSponsored', value)} label="Is Sponsored" />
+                    <IosSwitch name="isPublic" onChange={handleChange} label="Is Public" />
                 </Sidebar>
             </Stack>
             <DataWidget
                 title="Projects"
-                isLoading={isLoading && !projects.length}
-                isError={isError && !projects.length}
-                isEmpty={!projects.length}
+                isLoading={isLoading && !registeredCars.length}
+                isError={isError && !registeredCars.length}
+                isEmpty={!registeredCars.length}
                 customLoaders={<ProjectsLoaders />}
             >
                 <Grid container spacing={3} sx={{ my: 1 }}>
-                    {projects.map((project, index) => {
+                    {registeredCars.map((registeredCar, index) => {
                         return (
-                                <CarsCard
-                                    car={project}
-                                    isActive={currentProject?._id === project._id}
-                                    onClick={(action) => {
-                                        setCurrentProject(project);
-                                        action === 'edit' ? handleOpenSidebar() : handleOpenModal();
-                                    }}
-                                />
-                                // <ProjectCard
-                                //     project={project}
-                                //     isActive={currentProject?._id === project._id}
-                                //     onClick={(action) => {
-                                //         setCurrentProject(project);
-                                //         action === 'edit' ? handleOpenSidebar() : handleOpenModal();
-                                //     }}
-                                // /> 
+                            <CarsCard
+                                car={registeredCar}
+                                handlePreview={() => {
+                                    handleClickOpenFullModal()
+                                    setCurrentCar(registeredCar);
+                                }}
+                                onClearance={handleCarClearance}
+                                onDelete={handleDeleteCar}
+                                onMove={handleOpenSidebar}
+                            />
                         );
                     })}
                 </Grid>
             </DataWidget>
-            <ModalDialog
-                title="Delete Project?"
-                subTitle={`Are you sure do you want to delete this project? `}
-                item={currentProject?.projectTitle}
-                open={openModal}
-                handleClose={handleCloseModal}
-                handleClickOk={async () => {
-                    const id = currentProject?._id;
-                    const title = currentProject?.projectTitle;
-                    setOpenModal(false);
-                    try {
-                        await toast.promise(API.delete(`/projects/delete/${id}`), {
-                            loading: `Hold on, we are deleting ${title} from our system.`,
-                            success: `Project ${title} has been deleted successfully`,
-                            error: (error) => {
-                                if (error.response) {
-                                    return `Error: ${error.response?.data?.message || error.message || 'Unknown error occured'}`;
-                                } else {
-                                    return 'Something went wrong while deleting project, please try again';
+            <FullScreenModel open={openFullModal} handleClose={handleCloseFullModal}>
+                <AppBar sx={{ position: 'sticky', background: '#55BDB3' }}>
+                    <Toolbar>
+                        <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleCloseFullModal}
+                        aria-label="close"
+                        >
+                        <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1, color: "white" }} variant="h2" component="div">
+                            {currentCar?.carName} owned by {currentCar?.ownedBy.names}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Grid container spacing={0} padding={3}>
+                    <Grid item xs={8}>
+                        <img src={currentCar?.carImage} alt="car" width="100%"/>
+                        <Box>
+                            <Typography variant="h3" color="secondary" marginBottom={3} marginTop={4} fontWeight='bold'>Features</Typography>
+                            <Stack direction="row" gap={2} sx={{ flexWrap: 'wrap' }}>
+                                {
+                                    currentCar?.features?.map((feature, index) => {
+                                        return (
+                                        <Box key={index}>
+                                            <FeatureLabel labelName={feature}/>
+                                        </Box>  
+                                        )
+                                    })
                                 }
-                            }
-                        });
-                        deleteProject(id);
-                    } catch (error) {
-                    } finally {
-                        handleCloseModal();
-                    }
-                }}
-            />
+                            </Stack>
+                        </Box>
+                    </Grid>
+                <Grid item xs={4}>
+                     
+                    <Box
+                    sx={{
+                        paddingLeft: 3
+                    }}>
+                        <Typography 
+                        variant="body1" 
+                        color="initial"
+                        sx={{
+                            border: "1px solid #55BDB3",
+                            padding: 1,
+                            color: "#55BDB3",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            borderRadius: 1
+                        }}
+                        >
+                            {parseInt(currentCar?.carPrice).toLocaleString()} Rwf
+                        </Typography> 
+                        <Card
+                        sx={{
+                            background: '#F0F8F8',
+                            marginTop: 4,
+                            padding: 3,
+                        }}
+                        >
+                            <Box>
+                                <Typography variant="body1" fontWeight="bold" color="initial">Car Details</Typography>
+                                <Stack gap={1} marginTop={2}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Brand</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.brand}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Model</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.model}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Condition</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.condition}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Year</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.year}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Body Type</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.bodyType}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Seats</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.passengerCapacity} People</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Exterior Color</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.exteriorColor}</Typography>
+                                    </Stack>
+                                    <Divider color="initial" sx={{ marginTop: 1 }}/>
+                                </Stack>
+                            </Box>
+
+                            <Box sx={{ marginTop: 4 }}>
+                                <Typography variant="body1" fontWeight="bold" color="initial">Engine</Typography>
+                                <Stack gap={1} marginTop={2}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Fuel Type</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.fuelType}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Mileage</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.mileage} km</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Trasmission</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.transmission}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Drivetrain</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.drivetrain}</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Power</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.power} hp</Typography>
+                                    </Stack>
+                                    <Divider color="initial" sx={{ marginTop: 1 }}/>
+                                </Stack>
+                            </Box>
+
+                            <Box sx={{ marginTop: 4 }}>
+                                <Typography variant="body1" fontWeight="bold" color="initial">Dimension</Typography>
+                                <Stack gap={1} marginTop={2}>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Length</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.length} mm</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Width</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.width} mm</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Height</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.height} mm</Typography>
+                                    </Stack>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <Typography variant="body2" color="initial">Cargo Volume</Typography>
+                                        <Typography variant="body2" color="initial" fontWeight="bold">{currentCar?.cargoVolume} L</Typography>
+                                    </Stack>
+                                </Stack>
+                            </Box>
+                            
+                            
+                        </Card>
+                    </Box>
+                    </Grid>
+                </Grid>
+            </FullScreenModel>
         </div>
     );
 };
 
 const mapStateToProps = (state) => ({
-    projects: state.project.projects,
-    paginationDetails: state.project.paginationDetails
+    registeredCars: state.car.registeredCars
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getProjects: (data) => dispatch(getAllProjects(data)),
-        addProject: (data) => dispatch(addProject(data)),
-        deleteProject: (id) => dispatch(deleteProject(id)),
-        editProject: (data) => dispatch(editProject(data))
+        getRegisteredCars: (data) => dispatch(getAllCars(data)),
+        editCar: (id) => dispatch(editCar(id)),
+        deleteCar: (id) => dispatch(deleteCar(id))
     };
 };
 

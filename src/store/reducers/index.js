@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 // reducer import
 import customizationReducer from './customizationReducer';
-import projectReducer from './projectReducer';
+import carReducer from './carReducer';
 import leaderReducer from './leaderReducer';
 import blogReducer from './blogReducer';
 import eventReducer from './calendarReducer';
@@ -17,7 +17,7 @@ import announcementReducer from './announcementReducer';
 
 const reducer = combineReducers({
     customization: customizationReducer,
-    project: projectReducer,
+    car: carReducer,
     leader: leaderReducer,
     blog: blogReducer,
     calendar: eventReducer,

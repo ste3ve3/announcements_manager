@@ -92,7 +92,7 @@ const UserListTile = ({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={names} src={picture?.url} >
+            <Avatar alt={names} sx={{background: '#55BDB3', color: "white"}}>
                {names.charAt(0)}
             </Avatar>
             <Typography variant="subtitle1" noWrap>

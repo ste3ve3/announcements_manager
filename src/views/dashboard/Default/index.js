@@ -14,7 +14,7 @@ import { useFetcher } from 'api';
 import { getAllFathers } from 'store/actions/father';
 import { getUsers } from 'store/actions/auth';
 import { getAllLeaders } from 'store/actions/leader';
-import { getAllProjects } from 'store/actions/project';
+import { getAllCars } from 'store/actions/cars';
 import { getAllBlogs } from 'store/actions/blog';
 import { getAllNews } from 'store/actions/news';
 import { getAllMessages } from 'store/actions/message';
@@ -43,70 +43,70 @@ const Dashboard = ({
     announcements, 
     getAnnouncements
 }) => {
-    const { data: usersData, isLoading: usersLoading } = useFetcher('/auth/getAllUsers');
-    const { data: projectsData, isLoading: projectsLoading } = useFetcher('/projects?allFields=true');
-    const { data: priestsData, isLoading: priestsLoading } = useFetcher('/priests?all=true');
-    const { data: leadersData, isLoading: leadersLoading } = useFetcher('/leaders?limit=3000000000');
-    const { data: blogsData, isLoading: blogsLoading } = useFetcher('/blog?all=admin');
-    const { data: newsData, isLoading: newsLoading } = useFetcher('/news?all=true');
-    const { data: messagesData, isLoading: messagesLoading } = useFetcher('/messages?all=true');
-    const { data: testimonialsData, isLoading: testimonialsLoading } = useFetcher('/testimonials?all=true');
-    const { data: announcementsData, isLoading: announcementsLoading } = useFetcher('/announcements?all=true');
-    const [isLoading, setLoading] = useState(true);
-    useEffect(() => {
-        setLoading(false);
-    }, []);
+    // const { data: usersData, isLoading: usersLoading } = useFetcher('/auth/getAllUsers');
+    // const { data: projectsData, isLoading: projectsLoading } = useFetcher('/projects?allFields=true');
+    // const { data: priestsData, isLoading: priestsLoading } = useFetcher('/priests?all=true');
+    // const { data: leadersData, isLoading: leadersLoading } = useFetcher('/leaders?limit=3000000000');
+    // const { data: blogsData, isLoading: blogsLoading } = useFetcher('/blog?all=admin');
+    // const { data: newsData, isLoading: newsLoading } = useFetcher('/news?all=true');
+    // const { data: messagesData, isLoading: messagesLoading } = useFetcher('/messages?all=true');
+    // const { data: testimonialsData, isLoading: testimonialsLoading } = useFetcher('/testimonials?all=true');
+    // const { data: announcementsData, isLoading: announcementsLoading } = useFetcher('/announcements?all=true');
+    // const [isLoading, setLoading] = useState(true);
+    // useEffect(() => {
+    //     setLoading(false);
+    // }, []);
     
-    useEffect(() => {
-      if (usersData?.registeredUsers?.length) {
-        getUsers({ users: usersData?.registeredUsers });
-      }
+    // useEffect(() => {
+    //   if (usersData?.registeredUsers?.length) {
+    //     getUsers({ users: usersData?.registeredUsers });
+    //   }
       
-      if (projectsData?.data?.length) {
-        getProjects({
-          projects: projectsData?.data
-        });
-      }
+    //   if (projectsData?.data?.length) {
+    //     getProjects({
+    //       projects: projectsData?.data
+    //     });
+    //   }
 
-      if (priestsData?.data?.length) {
-        getPriests({ fathers: priestsData?.data });
-      }
+    //   if (priestsData?.data?.length) {
+    //     getPriests({ fathers: priestsData?.data });
+    //   }
 
-      if (leadersData?.data?.length) {
-        getLeaders({ leaders: leadersData?.data });
-      }
+    //   if (leadersData?.data?.length) {
+    //     getLeaders({ leaders: leadersData?.data });
+    //   }
 
-      if (blogsData?.data?.length) {
-        getBlogs({ blogs: blogsData?.data });
-      }
+    //   if (blogsData?.data?.length) {
+    //     getBlogs({ blogs: blogsData?.data });
+    //   }
 
-      if (newsData?.data?.length) {
-        getNews({ news: newsData?.data });
-      }
+    //   if (newsData?.data?.length) {
+    //     getNews({ news: newsData?.data });
+    //   }
 
-      if (messagesData?.data?.length) {
-        getMessages({ messages: messagesData?.data });
-      }
+    //   if (messagesData?.data?.length) {
+    //     getMessages({ messages: messagesData?.data });
+    //   }
 
-      if (testimonialsData?.data?.length) {
-        getTestimonials({ testimonials: testimonialsData?.data });
-      }
+    //   if (testimonialsData?.data?.length) {
+    //     getTestimonials({ testimonials: testimonialsData?.data });
+    //   }
 
-      if (announcementsData?.data?.length) {
-        getAnnouncements({ announcements: announcementsData?.data });
-      }
+    //   if (announcementsData?.data?.length) {
+    //     getAnnouncements({ announcements: announcementsData?.data });
+    //   }
     
-    }, [
-        usersData?.registeredUsers?.length, 
-        projectsData?.data?.length,
-        priestsData?.data?.length,
-        leadersData?.data?.length,
-        blogsData?.data?.length,
-        newsData?.data?.length,
-        messagesData?.data?.length,
-        testimonialsData?.data?.length,
-        announcementsData?.data?.length
-    ]);
+    // }, [
+    //     usersData?.registeredUsers?.length, 
+    //     projectsData?.data?.length,
+    //     priestsData?.data?.length,
+    //     leadersData?.data?.length,
+    //     blogsData?.data?.length,
+    //     newsData?.data?.length,
+    //     messagesData?.data?.length,
+    //     testimonialsData?.data?.length,
+    //     announcementsData?.data?.length
+    // ]);
 
     return (
         <Grid container spacing={gridSpacing}>
@@ -145,30 +145,31 @@ const Dashboard = ({
     );
 };
 
-const mapStateToProps = (state) => ({
-    projects: state.project.projects,
-    priests: state.father.fathers,
-    users: state.auth.users,
-    leaders: state.leader.leaders,
-    blogs: state.blog.blogs,
-    news: state.news.news,
-    messages: state.message.messages,
-    testimonials: state.testimonial.testimonials,
-    announcements: state.announcement.announcements,
-});
+// const mapStateToProps = (state) => ({
+//     projects: state.project.projects,
+//     priests: state.father.fathers,
+//     users: state.auth.users,
+//     leaders: state.leader.leaders,
+//     blogs: state.blog.blogs,
+//     news: state.news.news,
+//     messages: state.message.messages,
+//     testimonials: state.testimonial.testimonials,
+//     announcements: state.announcement.announcements,
+// });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getProjects: (data) => dispatch(getAllProjects(data)),
-        getPriests: (data) => dispatch(getAllFathers(data)),
-        getUsers: (data) => dispatch(getUsers(data)),
-        getLeaders: (data) => dispatch(getAllLeaders(data)),
-        getBlogs: (data) => dispatch(getAllBlogs(data)),
-        getNews: (data) => dispatch(getAllNews(data)),
-        getMessages: (data) => dispatch(getAllMessages(data)),
-        getTestimonials: (data) => dispatch(getAllTestimonials(data)),
-        getAnnouncements: (data) => dispatch(getAllAnnouncements(data)),
-    };
-};
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         getProjects: (data) => dispatch(getAllCars(data)),
+//         getPriests: (data) => dispatch(getAllFathers(data)),
+//         getUsers: (data) => dispatch(getUsers(data)),
+//         getLeaders: (data) => dispatch(getAllLeaders(data)),
+//         getBlogs: (data) => dispatch(getAllBlogs(data)),
+//         getNews: (data) => dispatch(getAllNews(data)),
+//         getMessages: (data) => dispatch(getAllMessages(data)),
+//         getTestimonials: (data) => dispatch(getAllTestimonials(data)),
+//         getAnnouncements: (data) => dispatch(getAllAnnouncements(data)),
+//     };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard;
