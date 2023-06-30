@@ -5,11 +5,17 @@ export const MENU_OPEN = "@customization/MENU_OPEN";
 export const SET_FONT_FAMILY = "@customization/SET_FONT_FAMILY";
 export const SET_BORDER_RADIUS = "@customization/SET_BORDER_RADIUS";
 
-//Projects
+//Car registration
 export const GET_ALL_CARS = "GET_ALL_CARS";
 export const CAR_ERROR = "CAR_ERROR";
 export const EDIT_CAR = "EDIT_CAR";
 export const DELETE_CAR = "DELETE_CAR";
+
+//Auction
+export const GET_ALL_AUCTION_CARS = "GET_ALL_AUCTION_CARS";
+export const AUCTION_CAR_ERROR = "AUCTION_CAR_ERROR";
+export const EDIT_AUCTION_CAR = "EDIT_AUCTION_CAR";
+export const DELETE_AUCTION_CAR = "DELETE_AUCTION_CAR";
 
 //Testimonials
 export const GET_ALL_TESTIMONIALS = "GET_ALL_TESTIMONIALS";

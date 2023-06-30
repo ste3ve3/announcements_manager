@@ -7,13 +7,11 @@ import NotFound from 'views/pages/NotFound';
 import CarsPage from 'views/pages/CarsPage';
 import CalendarPage from 'views/pages/calendar/CalendarPage';
 import UsersPage from 'views/dashboard/members/UsersPage';
-import BlogsPage from 'views/pages/blog/BlogsPage';
-import AddBlogForm from 'components/blog/AddBlogForm';
-import EditBlog from 'views/pages/blog/EditBlog';
 import TestimonialsPage from 'views/utilities/TestimonialsPage';
 import MessagesPage from 'views/utilities/MessagesPage';
 import NewsPage from 'views/utilities/NewsPage';
 import AnnouncementsPage from 'views/utilities/AnnouncementsPage';
+import AuctionPage from 'views/pages/AuctionPage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -77,7 +75,7 @@ const MainRoutes = {
                 },
                 {
                     path: 'auction',
-                    element: <CalendarPage />
+                    element: <AuctionPage />
                 }
             ]
         },

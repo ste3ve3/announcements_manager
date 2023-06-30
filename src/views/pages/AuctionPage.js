@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import CloseIcon from '@mui/icons-material/Close';
 import { connect } from 'react-redux';
-import { deleteCar, editCar, getAllCars } from 'store/actions/cars';
+import { deleteCar, editCar, getAllCars } from 'store/actions/auction';
 import DataWidget from 'components/Global/DataWidget';
 import DatePickerValue from 'components/Global/DatePicker';
 import TimePickerValue from 'components/Global/TimePicker';
@@ -14,7 +14,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import Sidebar from 'components/Global/Sidebar';
 import IosSwitch from 'components/extended/IosSwitch';
 import ProjectsLoaders from 'components/cards/Skeleton/ProjectsLoaders';
-import CarsCard from 'components/cards/CarsCard';
+import AuctionCard from 'components/cards/AuctionCard';
 import FullScreenModel from 'components/Global/FullScreenModel';
 import FeatureLabel from './elements/FeatureLabel';
 
@@ -31,18 +31,20 @@ const initFormData = {
 
 const initState = { loading: false, error: null };
 
-const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => {
+const AuctionPage = ({ auctionCars, getAuctionCars, editCar, deleteCar }) => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [formData, setFormData] = useState(initFormData);
     const [state, setState] = useState(initState);
     const [currentCar, setCurrentCar] = useState(null);
     const [moveCarId, setMoveCarId] = useState(null)
 
-    const { data, isError, isLoading } = useFetcher('/registercar?cleared=false&perPage=1000000');
+    const { data, isError, isLoading } = useFetcher('/auction?perPage=1000000&all=admin');
+
+    console.log(data);
 
     useEffect(() => {
         if (data?.data?.length) {
-            getRegisteredCars({ registeredCars: data?.data });
+            getAuctionCars({ auctionCars: data?.data });
         }
     }, [data?.data?.length]);
 
@@ -75,13 +77,13 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
         setCurrentCar(null);
     };
 
-    const handleCarClearance = async (id) => {
+    const handlePublishCar = async (id) => {
         const result = await toast.promise(
-            API.patch(`/registercar/carClearance?carId=${id}`),
+            API.patch(`/auction/publish?carId=${id}`),
             {
-                loading: `Clearing car, please wait...`,
-                success: `Car cleared successfully!`,
-                error: `Something went wrong while clearing this car, please try again!`
+                loading: `Publishing car, please wait...`,
+                success: `Car published successfully!`,
+                error: `Something went wrong while publishing this car, please try again!`
             },
             { position: 'top-center' }
         );
@@ -129,7 +131,7 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
     return (
         <div>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
-                <Typography variant="h3">Registered Cars</Typography>
+                <Typography variant="h3">Auction Cars</Typography>
                 <Sidebar
                     title='Move to auction'
                     openSidebar={openSidebar}
@@ -201,22 +203,18 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
                 </Sidebar>
             </Stack>
             <DataWidget
-                title="Registered cars"
-                isLoading={isLoading && !registeredCars.length}
-                isError={isError && !registeredCars.length}
-                isEmpty={!registeredCars.length}
+                title="Auction cars"
+                isLoading={isLoading && !auctionCars.length}
+                isError={isError && !auctionCars.length}
+                isEmpty={!auctionCars.length}
                 customLoaders={<ProjectsLoaders />}
             >
                 <Grid container spacing={3} sx={{ my: 1 }}>
-                    {registeredCars.map((registeredCar, index) => {
+                    {auctionCars.map((car, index) => {
                         return (
-                            <CarsCard
-                                car={registeredCar}
-                                handlePreview={() => {
-                                    handleClickOpenFullModal()
-                                    setCurrentCar(registeredCar);
-                                }}
-                                onClearance={handleCarClearance}
+                            <AuctionCard
+                                car={car}
+                                handlePublish={handlePublishCar}
                                 onDelete={handleDeleteCar}
                                 onMove={(id) => {
                                     setMoveCarId(id)
@@ -383,15 +381,15 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
 };
 
 const mapStateToProps = (state) => ({
-    registeredCars: state.car.registeredCars
+    auctionCars: state.auction.auctionCars
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRegisteredCars: (data) => dispatch(getAllCars(data)),
+        getAuctionCars: (data) => dispatch(getAllCars(data)),
         editCar: (id) => dispatch(editCar(id)),
         deleteCar: (id) => dispatch(deleteCar(id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CarsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AuctionPage);

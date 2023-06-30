@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 // reducer import
 import customizationReducer from './customizationReducer';
 import carReducer from './carReducer';
+import auctionReducer from './auctionReducer';
 import leaderReducer from './leaderReducer';
 import blogReducer from './blogReducer';
 import eventReducer from './calendarReducer';
@@ -18,6 +19,7 @@ import announcementReducer from './announcementReducer';
 const reducer = combineReducers({
     customization: customizationReducer,
     car: carReducer,
+    auction: auctionReducer,
     leader: leaderReducer,
     blog: blogReducer,
     calendar: eventReducer,
