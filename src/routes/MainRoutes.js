@@ -5,13 +5,10 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'components/Loadable';
 import NotFound from 'views/pages/NotFound';
 import CarsPage from 'views/pages/CarsPage';
-import CalendarPage from 'views/pages/calendar/CalendarPage';
 import UsersPage from 'views/dashboard/members/UsersPage';
-import TestimonialsPage from 'views/utilities/TestimonialsPage';
-import MessagesPage from 'views/utilities/MessagesPage';
-import NewsPage from 'views/utilities/NewsPage';
-import AnnouncementsPage from 'views/utilities/AnnouncementsPage';
 import AuctionPage from 'views/pages/AuctionPage';
+import ClearedPage from 'views/pages/ClearedPage';
+import CarsReport from 'views/pages/CarsReport';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -44,28 +41,6 @@ const MainRoutes = {
                 },
             ]
         },
-
-        {
-            path: 'activities',
-            children: [
-                {
-                    path: 'testimonials',
-                    element: <TestimonialsPage />
-                },
-                {
-                    path: 'messages',
-                    element: <MessagesPage />
-                },
-                {
-                    path: 'news',
-                    element: <NewsPage />
-                },
-                {
-                    path: 'announcements',
-                    element: <AnnouncementsPage />
-                }
-            ]
-        },
         {
             path: 'content',
             children: [
@@ -76,7 +51,15 @@ const MainRoutes = {
                 {
                     path: 'auction',
                     element: <AuctionPage />
-                }
+                },
+                {
+                    path: 'cleared',
+                    element: <ClearedPage />
+                },
+                {
+                    path: 'report',
+                    element: <CarsReport />
+                },
             ]
         },
         {

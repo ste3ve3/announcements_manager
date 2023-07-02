@@ -10,7 +10,7 @@ import MainCard from 'components/cards/MainCard';
 import SkeletonEarningCard from 'components/cards/Skeleton/EarningCard';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "#55BDB3",
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',
@@ -37,7 +37,7 @@ const EarningCard = ({ isLoading, icon, title, count }) => {
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
-                                                backgroundColor: theme.palette.secondary[800],
+                                                backgroundColor: "#2C7D77",
                                                 mt: 1,
                                                 color: '#fff'
                                             }}
@@ -65,7 +65,7 @@ const EarningCard = ({ isLoading, icon, title, count }) => {
                                     sx={{
                                         fontSize: '1rem',
                                         fontWeight: 500,
-                                        color: theme.palette.secondary[200]
+                                        color: theme.palette.secondary[100]
                                     }}
                                 >
                                     { title }

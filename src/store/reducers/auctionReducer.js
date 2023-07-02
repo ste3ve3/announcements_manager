@@ -19,7 +19,7 @@ const auctionReducer = (state = initCartate, action) => {
             return {
                 ...state,
                 error: null,
-                auctionCars: state.auctionCars.filter((car) => car._id !== action.payload.id)
+                auctionCars: state.auctionCars.map((car) => (car._id !== action.payload.car._id ? car : action.payload.car))
             };
         case DELETE_AUCTION_CAR:
             return {

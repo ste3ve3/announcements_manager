@@ -1,12 +1,6 @@
-// assets
-import { IconKey, IconBrandAsana, IconBrandDisqus, IconCalendar } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconKey,
-    IconBrandAsana,
-    IconCalendar
-};
+import NoCrashIcon from '@mui/icons-material/NoCrash';
+import CarCrashIcon from '@mui/icons-material/CarCrash';
+import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave';
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
@@ -21,7 +15,7 @@ const pages = {
             title: 'Registered Cars',
             url: '/content/cars',
             // target: true,
-            icon: icons.IconCalendar,
+            icon: NoCrashIcon,
             type: 'item'
         },
         {
@@ -29,7 +23,15 @@ const pages = {
             title: 'Auction Cars',
             url: '/content/auction',
             // target: true,
-            icon: icons.IconBrandAsana,
+            icon: CarCrashIcon,
+            type: 'item'
+        },
+        {
+            id: 'cleared',
+            title: 'Cleared Cars',
+            url: '/content/cleared',
+            // target: true,
+            icon: TimeToLeaveIcon,
             type: 'item'
         },
     ]

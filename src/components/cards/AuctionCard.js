@@ -6,9 +6,7 @@ import {
   Card,
   Grid,
   Avatar,
-  Typography,
   CardContent,
-  Box,
   Stack,
   IconButton,
   MenuItem,
@@ -16,11 +14,6 @@ import {
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
-import Groups2Icon from '@mui/icons-material/Groups2';
-import ElectricCarIcon from '@mui/icons-material/ElectricCar';
-import avatarShape from "../../assets/images/shape-avatar.svg"
-import SvgColor from '../../components/svg-color';
 import Iconify from 'components/iconify/Iconify';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -74,7 +67,7 @@ AuctionCard.propTypes = {
   index: PropTypes.number,
 };
 
-export default function AuctionCard({ car, onDelete, onClearance, handlePublish, onMove }) {
+export default function AuctionCard({ car, onDelete, handlePublish, handleEditCar }) {
   const {
     _id: id,
     carImage,
@@ -101,24 +94,6 @@ export default function AuctionCard({ car, onDelete, onClearance, handlePublish,
   };
   const handleCloseModal = () => {
     setOpenModal(false); 
-  };
-
-  const [openClearanceModal, setOpenClearanceModal] = useState(false);
-  const handleOpenClearanceModal = () => {
-    setOpenClearanceModal(true);
-    handleCloseMenu();
-  };
-  const handleCloseClearanceModal = () => {
-    setOpenClearanceModal(false);
-  };
-
-  const [openMoveModal, setOpenMoveModal] = useState(false);
-  const handleOpenMoveModal = () => {
-    setOpenMoveModal(true);
-    handleCloseMenu();
-  };
-  const handleCloseMoveModal = () => {
-    setOpenMoveModal(false);
   };
 
   return (
@@ -190,14 +165,18 @@ export default function AuctionCard({ car, onDelete, onClearance, handlePublish,
         <MenuItem
           sx={{ color: 'success.main' }}
           onClick={() => {
-            handlePublish(id, isPublic ? false : true )
+            handlePublish(id, isPublic ? { isPublic: false } : { isPublic: true } )
+            handleCloseMenu()
         }}
         >
           <Iconify icon={'eva:external-link-fill'} sx={{ mr: 2 }} />
             { isPublic ? 'Unpublish' : 'Publish' }
         </MenuItem>
         <MenuItem
-          onClick={handleOpenMoveModal}
+          onClick={() => {
+            handleEditCar()
+            handleCloseMenu()
+          }}
         >
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
@@ -211,28 +190,6 @@ export default function AuctionCard({ car, onDelete, onClearance, handlePublish,
           Delete
         </MenuItem>
       </Popover>
-      <ModalDialog
-        title="Car Clearance?"
-        subTitle={`Are you sure you want to clear this car?`}
-        item={carName}
-        open={openClearanceModal}
-        handleClose={handleCloseClearanceModal}
-        handleClickOk={() => {
-          handleCloseClearanceModal();
-          onClearance(id); 
-      }}
-      />
-      <ModalDialog
-        title="Move car to auction?"
-        subTitle={`Are you sure you want to move this car to auction?`}
-        item={carName}
-        open={openMoveModal}
-        handleClose={handleCloseMoveModal}
-        handleClickOk={() => {
-          handleCloseMoveModal();
-          onMove(id);
-      }}
-      />
       <ModalDialog
         title="Delete Car?"
         subTitle={`Are you sure you want to delete this car?`}

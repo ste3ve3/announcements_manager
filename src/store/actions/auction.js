@@ -9,10 +9,10 @@ export const getAllCars = ({ auctionCars = [] }) => {
     };
 };
 
-export const editCar = (id) => ({
+export const editCar = (car) => ({
     type: actions.EDIT_AUCTION_CAR,
     payload: {
-        id
+        car
     }
 });
 

@@ -13,7 +13,7 @@ import TimePickerValue from 'components/Global/TimePicker';
 import LaunchIcon from '@mui/icons-material/Launch';
 import Sidebar from 'components/Global/Sidebar';
 import IosSwitch from 'components/extended/IosSwitch';
-import ProjectsLoaders from 'components/cards/Skeleton/ProjectsLoaders';
+import CarLoaders from 'components/cards/Skeleton/CarLoaders';
 import CarsCard from 'components/cards/CarsCard';
 import FullScreenModel from 'components/Global/FullScreenModel';
 import FeatureLabel from './elements/FeatureLabel';
@@ -205,7 +205,7 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
                 isLoading={isLoading && !registeredCars.length}
                 isError={isError && !registeredCars.length}
                 isEmpty={!registeredCars.length}
-                customLoaders={<ProjectsLoaders />}
+                customLoaders={<CarLoaders />}
             >
                 <Grid container spacing={3} sx={{ my: 1 }}>
                     {registeredCars.map((registeredCar, index) => {
