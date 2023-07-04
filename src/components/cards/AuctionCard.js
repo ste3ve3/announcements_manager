@@ -10,7 +10,7 @@ import {
   Stack,
   IconButton,
   MenuItem,
-  Popover,
+  Popover, Typography,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
@@ -18,6 +18,7 @@ import Iconify from 'components/iconify/Iconify';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalDialog from 'components/Global/ModalDialog';
+import toast from "react-hot-toast";
 
 const StyledCardMedia = styled('div')({
   position: 'relative',
@@ -75,6 +76,13 @@ export default function AuctionCard({ car, onDelete, handlePublish, handleEditCa
     brand,
     year,
     isPublic,
+    auctionDate,
+    auctionTime,
+    auctionLocation,
+    locationMap,
+    contactPhone1,
+    contactPhone2,
+    contactEmail
   } = car;
   const nav = useNavigate();
 
@@ -121,6 +129,12 @@ export default function AuctionCard({ car, onDelete, handlePublish, handleEditCa
                 underline="none"
               >
                 {carName}
+                {
+                  (!auctionDate || !auctionTime || !auctionLocation || !locationMap || !contactPhone1 || !contactPhone2 || !contactEmail) &&
+                  <Typography variant="body1" color="red">
+                    [ Missing some auction details ]
+                  </Typography>
+                } 
               </StyledcarName>
               <IconButton onClick={handleOpenMenu}>
                 <Iconify
@@ -165,8 +179,14 @@ export default function AuctionCard({ car, onDelete, handlePublish, handleEditCa
         <MenuItem
           sx={{ color: 'success.main' }}
           onClick={() => {
-            handlePublish(id, isPublic ? { isPublic: false } : { isPublic: true } )
-            handleCloseMenu()
+            if(!isPublic && (!auctionDate || !auctionTime || !auctionLocation || !locationMap || !contactPhone1 || !contactPhone2 || !contactEmail)){
+              toast.error("This car is missing some auction details!")
+              handleCloseMenu()
+            }
+            else {
+              handlePublish(id, isPublic ? { isPublic: false } : { isPublic: true } )
+              handleCloseMenu()
+            }  
         }}
         >
           <Iconify icon={'eva:external-link-fill'} sx={{ mr: 2 }} />
