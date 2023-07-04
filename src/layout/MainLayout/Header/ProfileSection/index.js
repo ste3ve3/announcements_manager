@@ -69,7 +69,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
           navigate('/login');
           window.location.reload();
         }
-      }, [isLoading, isError]);
+      }, [isLoading, isError, loggedInUser?.role]);
     
     const handleLogout = async (e) => {
         e.preventDefault();
