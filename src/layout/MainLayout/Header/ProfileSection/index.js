@@ -65,7 +65,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
     }, [data?.loggedInUser]);
 
     useEffect(() => {
-        if (!isLoading && isError) {
+        if ((!isLoading && isError) || loggedInUser?.role == "user") {
           navigate('/login');
           window.location.reload();
         }
