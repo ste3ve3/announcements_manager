@@ -26,7 +26,6 @@ const initFormData = {
     contactPhone1: '',
     contactPhone2: '',
     contactEmail: '',
-    isPublic: '',
 };
 
 const initState = { loading: false, error: null };
@@ -196,8 +195,6 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
                         onChange={handleChange}
                         fullWidth
                     />
-
-                    <IosSwitch name="isPublic" onChange={(value) => handleSpecialChange('isPublic', value)} label="Is Public" />
                 </Sidebar>
             </Stack>
             <DataWidget
