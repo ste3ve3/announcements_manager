@@ -1,6 +1,7 @@
 import NoCrashIcon from '@mui/icons-material/NoCrash';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave';
+import EditIcon from '@mui/icons-material/Edit';
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
@@ -32,6 +33,14 @@ const pages = {
             url: '/content/cleared',
             // target: true,
             icon: TimeToLeaveIcon,
+            type: 'item'
+        },
+        {
+            id: 'edit',
+            title: 'Edit Taxes',
+            url: '/content/taxes',
+            // target: true,
+            icon: EditIcon,
             type: 'item'
         },
     ]
