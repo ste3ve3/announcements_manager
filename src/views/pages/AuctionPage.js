@@ -26,6 +26,7 @@ const initFormData = {
     contactPhone1: '',
     contactPhone2: '',
     contactEmail: '',
+    carPrice: ''
 };
 
 const initState = { loading: false, error: null };
@@ -48,7 +49,8 @@ const AuctionPage = ({ auctionCars, getAuctionCars, editCar, deleteCar }) => {
                 locationMap: currentCar.locationMap,
                 contactPhone1: currentCar.contactPhone1,
                 contactPhone2: currentCar.contactPhone2,
-                contactEmail: currentCar.contactEmail
+                contactEmail: currentCar.contactEmail,
+                carPrice: currentCar.carPrice,
             });
         } else {
             setFormData(initFormData);
@@ -222,6 +224,15 @@ const AuctionPage = ({ auctionCars, getAuctionCars, editCar, deleteCar }) => {
                         color="secondary"
                         name="contactEmail"
                         value={formData.contactEmail}
+                        onChange={handleChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Price"
+                        type='number'
+                        color="secondary"
+                        name="carPrice"
+                        value={formData.carPrice}
                         onChange={handleChange}
                         fullWidth
                     />

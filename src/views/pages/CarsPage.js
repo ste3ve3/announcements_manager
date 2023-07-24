@@ -1,4 +1,4 @@
-import { Grid, Box, Stack, TextField, Typography, AppBar, Toolbar, IconButton, Card, Divider } from '@mui/material';
+import { Grid, Box, Stack, TextField, Typography, AppBar, Toolbar, IconButton, Card, Divider, Button } from '@mui/material';
 import { API, useFetcher } from 'api';
 import React from 'react';
 import { useEffect } from 'react';
@@ -17,6 +17,7 @@ import CarLoaders from 'components/cards/Skeleton/CarLoaders';
 import CarsCard from 'components/cards/CarsCard';
 import FullScreenModel from 'components/Global/FullScreenModel';
 import FeatureLabel from './elements/FeatureLabel';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 const initFormData = {
     auctionDate: '',
@@ -26,6 +27,7 @@ const initFormData = {
     contactPhone1: '',
     contactPhone2: '',
     contactEmail: '',
+    carPrice: '',
 };
 
 const initState = { loading: false, error: null };
@@ -36,6 +38,8 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
     const [state, setState] = useState(initState);
     const [currentCar, setCurrentCar] = useState(null);
     const [moveCarId, setMoveCarId] = useState(null)
+    const [vehiclePrice, setVehiclePrice] = useState(null)
+    const [editPrice, setEditPrice] = useState(false)
 
     const { data, isError, isLoading } = useFetcher('/registercar?cleared=false&perPage=1000000');
 
@@ -86,7 +90,7 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
         );
         editCar(id)
       }; 
-
+    console.log(formData);
     const handleMoveCarToAuction = async () => {
         setState(initState);
         try {
@@ -129,6 +133,16 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
         <div>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="h3">Registered Cars</Typography>
+                <Button
+                    sx={{ mt: 2 }}
+                    component="a"
+                    variant="outlined"
+                    href="/content/registeredCarsReport"
+                    color="secondary"
+                    startIcon={<SummarizeIcon />}
+                    >
+                    Registered Cars Report
+                </Button>
                 <Sidebar
                     title='Move to auction'
                     openSidebar={openSidebar}
@@ -195,6 +209,18 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
                         onChange={handleChange}
                         fullWidth
                     />
+                    <TextField
+                        label="Price"
+                        type='number'
+                        color="secondary"
+                        name="carPrice"
+                        value={editPrice ?  formData?.carPrice : vehiclePrice }
+                        onChange={(e) => {
+                            setEditPrice(true)
+                            handleChange(e)
+                        }}
+                        fullWidth
+                    />
                 </Sidebar>
             </Stack>
             <DataWidget
@@ -215,8 +241,9 @@ const CarsPage = ({ registeredCars, getRegisteredCars, editCar, deleteCar }) => 
                                 }}
                                 onClearance={handleCarClearance}
                                 onDelete={handleDeleteCar}
-                                onMove={(id) => {
+                                onMove={(id, carPrice) => {
                                     setMoveCarId(id)
+                                    setVehiclePrice(carPrice)
                                     handleOpenSidebar()
                                 }}
                             />

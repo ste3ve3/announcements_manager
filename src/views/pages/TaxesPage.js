@@ -9,6 +9,8 @@ import {
   CircularProgress,
   Container,
   Alert,
+  Tabs,  
+  Tab,
   AlertTitle,
   InputAdornment,
   Grid
@@ -53,7 +55,13 @@ const TaxesPage = () => {
   const matcheBigDevices = useMediaQuery('(min-width:600px)');
   const [formData, setFormData] = useState(initialFormData);
   const [state, setState] = useState(initialState);
-  const { data, isError, isLoading } = useFetcher('/taxes');
+  const [carCondition, setCarCondition] = useState("New")
+  const { data, isError, isLoading } = useFetcher(`/taxes?carCondition=${carCondition}`);
+  const [value, setValue] = useState(0);
+
+  const handleChangeTabs = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     if (data && data.data) {
@@ -88,7 +96,7 @@ const TaxesPage = () => {
             //     return;
             // }
             const result = await toast.promise(
-                API.patch(`/taxes?taxCalculationId=64a5451a24af4d99fb6b1353`, formData),
+                API.patch(`/taxes?carCondition=${carCondition}`, formData),
                 {
                     loading: `Updating taxes, please wait...`,
                     success: `Taxes updated successfully!`,
@@ -126,6 +134,13 @@ if (isError) {
     );
 }
 
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
   return (
     <Box>
       <Card
@@ -134,7 +149,30 @@ if (isError) {
           marginTop: 4
         }}
       >
-        <Typography variant="h4" color="secondary" marginBottom={3} fontWeight='bold'>Year Taxes</Typography>
+        <Typography variant="h3" marginBottom={3} fontWeight='bold'>Taxes</Typography>
+          <Box sx={{ marginBottom: 5 }}>
+            <Tabs 
+            value={value}
+            onChange={handleChangeTabs}
+            aria-label="basic tabs example" 
+            indicatorColor="secondary"
+            sx={{
+              '& .MuiTabs-indicator': {
+                backgroundColor: 'secondary' 
+              },
+              '& .Mui-selected': {
+                background: '#55BDB3',
+              },
+              '& .MuiTab-root': {
+                border: '1px solid',
+                borderColor: "divider"
+              },
+            }}
+            >
+              <Tab label="New Car Taxes" {...a11yProps(0)} onClick={() => setCarCondition("New")}/>
+              <Tab label="Used Car Taxes" {...a11yProps(1)} onClick={() => setCarCondition("Used")}/>
+            </Tabs>
+          </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <TextField

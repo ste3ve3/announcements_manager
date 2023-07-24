@@ -10,6 +10,7 @@ import AuctionPage from 'views/pages/AuctionPage';
 import ClearedPage from 'views/pages/ClearedPage';
 import CarsReport from 'views/pages/CarsReport';
 import TaxesPage from 'views/pages/TaxesPage';
+import RegisteredCarsReport from 'views/pages/RegisteredCarsReport';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -60,6 +61,10 @@ const MainRoutes = {
                 {
                     path: 'report',
                     element: <CarsReport />
+                },
+                {
+                    path: 'registeredCarsReport',
+                    element: <RegisteredCarsReport />
                 },
                 {
                     path: 'taxes',

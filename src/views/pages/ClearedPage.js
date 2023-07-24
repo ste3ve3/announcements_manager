@@ -89,31 +89,7 @@ const ClearedPage = () => {
         );
         editCar(id)
       }; 
-
-    const handleMoveCarToAuction = async () => {
-        setState(initState);
-        try {
-            setState((prev) => ({ ...prev, loading: true }));
-            await toast.promise(
-                API.post(`/registercar/moveToAuction?carId=${moveCarId}`, formData),
-                {
-                    loading: `Moving car, please wait...`,
-                    success: `Car successfully moved to auction!`,
-                    error: `Something went wrong while moving this car, please try again!`
-                },
-                { position: 'top-center' }
-            );
-            deleteCar(moveCarId)
-            setOpenSidebar(false);
-        } catch (error) {
-            setState((prev) => ({
-                ...prev,
-                error: error.response?.data?.message || error.message || 'Unknown error occured, please try again.'
-            }));
-        } finally {
-            setState((prev) => ({ ...prev, loading: false }));
-        }
-    }; 
+ 
 
     const handleDeleteCar = async (id) => {
         await toast.promise(

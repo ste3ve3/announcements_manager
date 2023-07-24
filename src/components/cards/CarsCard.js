@@ -85,6 +85,7 @@ export default function CarsCard({ car, onDelete, onClearance, handlePreview, on
     transmission,
     passengerCapacity,
     ownedBy,
+    carPrice
   } = car;
   const nav = useNavigate();
 
@@ -279,7 +280,7 @@ export default function CarsCard({ car, onDelete, onClearance, handlePreview, on
         handleClose={handleCloseMoveModal}
         handleClickOk={() => {
           handleCloseMoveModal();
-          onMove(id);
+          onMove(id, carPrice);
       }}
       />
       <ModalDialog
