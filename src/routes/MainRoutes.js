@@ -4,13 +4,10 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'components/Loadable';
 import NotFound from 'views/pages/NotFound';
-import CarsPage from 'views/pages/CarsPage';
 import UsersPage from 'views/dashboard/members/UsersPage';
-import AuctionPage from 'views/pages/AuctionPage';
-import ClearedPage from 'views/pages/ClearedPage';
-import CarsReport from 'views/pages/CarsReport';
-import TaxesPage from 'views/pages/TaxesPage';
-import RegisteredCarsReport from 'views/pages/RegisteredCarsReport';
+import StudentsPage from 'views/dashboard/members/StudentsPage';
+import AddAnnouncement from 'components/announcement/AddAnnouncement';
+import AnnouncementPage from 'views/pages/AnnouncementPage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -38,8 +35,12 @@ const MainRoutes = {
             path: 'members',
             children: [
                 {
-                    path: 'users',
+                    path: 'staff',
                     element: <UsersPage />
+                },
+                {
+                    path: 'students',
+                    element: <StudentsPage />
                 },
             ]
         },
@@ -47,29 +48,13 @@ const MainRoutes = {
             path: 'content',
             children: [
                 {
-                    path: 'cars',
-                    element: <CarsPage />
+                    path: 'announcements',
+                    element: <AnnouncementPage />
                 },
                 {
-                    path: 'auction',
-                    element: <AuctionPage />
-                },
-                {
-                    path: 'cleared',
-                    element: <ClearedPage />
-                },
-                {
-                    path: 'report',
-                    element: <CarsReport />
-                },
-                {
-                    path: 'registeredCarsReport',
-                    element: <RegisteredCarsReport />
-                },
-                {
-                    path: 'taxes',
-                    element: <TaxesPage />
-                },
+                    path: 'addAnnouncemment',
+                    element: <AddAnnouncement />
+                }
             ]
         },
         {

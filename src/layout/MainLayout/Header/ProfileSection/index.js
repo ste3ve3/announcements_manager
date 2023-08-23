@@ -211,11 +211,11 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     color: 'white',
-                                                    background: '#023C45'
+                                                    background: '#FFB84C'
                                                 }} 
-                                                alt={loggedInUser?.names}
+                                                alt={loggedInUser?.firstName}
                                                 >
-                                                  {loggedInUser?.names?.charAt(0)}
+                                                  {loggedInUser?.firstName?.charAt(0)}
                                                 </Avatar>
 
                                                 <Box sx={{ ml: 2 }}>
@@ -223,14 +223,14 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                     variant="subtitle1"
                                                     sx={{ color: 'text.primary', font: 'bold' }}
                                                 >
-                                                    {loggedInUser?.names}
+                                                    {loggedInUser?.firstName +" "+ loggedInUser?.lastName}
                                                 </Typography>
 
                                                 <Typography
                                                     variant="body2"
                                                     sx={{ color: 'text.secondary' }}
                                                 >
-                                                    {loggedInUser?.role}
+                                                    Staff Admin
                                                 </Typography>
                                                 </Box>
                                             </StyledAccount>

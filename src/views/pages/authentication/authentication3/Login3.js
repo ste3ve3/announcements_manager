@@ -41,7 +41,7 @@ const Login = () => {
                                                         variant='h3'
                                                         textAlign='center'
                                                     >
-                                                        Magerwa VCC Admin Dashboard
+                                                        Announcements Manager Portal
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"
@@ -59,6 +59,18 @@ const Login = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Grid item container direction="column" alignItems="center" xs={12}>
+                                            <Typography
+                                                component={Link}
+                                                to="/register"
+                                                variant="subtitle1"
+                                                sx={{ textDecoration: 'none' }}
+                                            >
+                                                Don't have an account?
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </AuthCardWrapper>

@@ -1,5 +1,5 @@
 {
-    "name": "magerwa_vcc-dashboard",
+    "name": "announcements_manager_app",
     "version": "3.3.1",
     "private": true,
     "dependencies": {

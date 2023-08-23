@@ -62,7 +62,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
 
     return (
-        <Typography>Magerwa VCC Admin Dashboard</Typography>
+        <Typography>Announcements Manager Portal</Typography>
     );
 };
 
@@ -81,7 +81,7 @@ const SearchSection = () => {
     return (
         <>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Magerwa VCC Admin Dashboard</Typography>
+            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Announcements Manager Portal</Typography>
             </Box>
         </>
     );

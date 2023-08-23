@@ -54,7 +54,7 @@ const FirebaseLogin = ({ ...others }) => {
         try {
             setState((prev) => ({ ...prev, loading: true }));
                 await toast.promise(
-                    API.post(`/auth/login?isDashboardAuth=true`, formData),
+                    API.post(`/auth/login`, formData),
                     {
                         loading: `Checking credentials, please wait...`,
                         success: `Logged In Successfully!`,
@@ -116,11 +116,6 @@ const FirebaseLogin = ({ ...others }) => {
           toast.error(error);
         });
       }
-    
-      const GoogleAuthentication = useGoogleLogin({
-        onSuccess: (response) => googleSuccess(response),
-        onError: (error) => toast.error(error)
-      });
 
 
     const [showPassword, setShowPassword] = useState(false);
@@ -189,6 +184,7 @@ const FirebaseLogin = ({ ...others }) => {
                             <Button
                                 disableElevation
                                 fullWidth
+                                disabled={state.loading}
                                 size="large"
                                 type="submit"
                                 variant="contained"

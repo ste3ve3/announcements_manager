@@ -13,7 +13,7 @@ import MainCard from 'components/cards/MainCard';
 import SkeletonTotalOrderCard from 'components/cards/Skeleton/EarningCard';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-    backgroundColor: "#023C45",
+    backgroundColor: "#A84448",
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',
@@ -43,7 +43,7 @@ const TotalOrderLineChartCard = ({ isLoading, icon, title, count }) => {
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
-                                                backgroundColor: "#01191F",
+                                                backgroundColor: "#C6595B",
                                                 color: '#fff',
                                                 mt: 1
                                             }}
@@ -68,7 +68,7 @@ const TotalOrderLineChartCard = ({ isLoading, icon, title, count }) => {
                                             sx={{
                                                 fontSize: '1rem',
                                                 fontWeight: 500,
-                                                color: theme.palette.secondary[200],
+                                                color: "white",
                                                 textAlign: 'center'
                                             }}
                                         >

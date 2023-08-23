@@ -5,6 +5,8 @@ import customizationReducer from './customizationReducer';
 import carReducer from './carReducer';
 import auctionReducer from './auctionReducer';
 import authReducer from './authReducer';
+import studentsReducer from "./studentReducer"
+import announcementReducer from './announcementReducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -13,6 +15,8 @@ const reducer = combineReducers({
     car: carReducer,
     auction: auctionReducer,
     auth: authReducer,
+    student: studentsReducer,
+    announcement: announcementReducer,
 });
 
 export default reducer;

@@ -26,32 +26,17 @@ const UserListTile = ({
   user,
   selectedUser,
   onCheckBoxClicked,
-  editRole,
+  changeAccess,
   currentUserId,
   deleteUser,
 }) => {
   const {
     _id: id,
-    names,
-    role,
+    firstName,
+    lastName,
     email,
     isVerified,
-    picture,
-    nationalId,
   } = user;
-  //Current role state
-  const [currentRole, setCurrentRole] = useState(role);
-  useMemo(() => {
-    if (currentRole !== role) {
-      setCurrentRole(role);
-    }
-  }, [role]);
-  //Handle change current role
-  const onChangeRole = e => {
-    const { value } = e.target;
-    setCurrentRole(value);
-    handleOpenModal();
-  };
 
   //Open menu
   const [openMenu, setOpenMenu] = useState(null);
@@ -73,7 +58,6 @@ const UserListTile = ({
   const handleCloseModal = () => {
     setOpenModal({ show: false, action: null });
     handleCloseMenu(null);
-    setCurrentRole(role);
   };
   return (
     <>
@@ -92,11 +76,11 @@ const UserListTile = ({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={names} sx={{background: '#55BDB3', color: "white"}}>
-               {names.charAt(0)}
+            <Avatar alt={firstName} sx={{background: '#55BDB3', color: "white"}}>
+               {firstName.charAt(0)}
             </Avatar>
             <Typography variant="subtitle1" noWrap>
-              {names}
+              {firstName +" "+ lastName}
             </Typography>
           </Stack>
         </TableCell>
@@ -107,37 +91,8 @@ const UserListTile = ({
           </Link>
         </TableCell>
 
-        <TableCell align="center">{nationalId}</TableCell>
-
-        <TableCell align="center">
-          {isVerified ? 'Yes' : 'No'}
-        </TableCell>
-
         <TableCell align="left">
-          <FormControl fullWidth sx={{ my: 1 }}>
-            <Select
-              labelId="select-role"
-              id="select-role"
-              value={currentRole}
-              onChange={onChangeRole}
-              label="Select Role"
-              required
-              disabled={
-                currentUserId === id
-              }
-            >
-              {ROLES.map((role, index) => {
-                return (
-                  <MenuItem
-                    value={role.value}
-                    key={index}
-                  >
-                    {role.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          {isVerified ? 'True' : 'False'}
         </TableCell>
 
         <TableCell align="right">
@@ -169,24 +124,42 @@ const UserListTile = ({
         }}
       >
         <MenuItem
+          // sx={{ color: 'error.main' }}
+          disabled={currentUserId === id}
+          onClick={() => handleOpenModal('APPROVED')}
+        >
+          {
+            !isVerified ?
+            <>
+              <Iconify icon={'eva:checkmark-circle-2-outline'} sx={{ mr: 2, color: "green" }} />
+              <Typography variant="body1" color="green">Approve</Typography>
+            </>
+              :
+            <>
+              <Iconify icon={'eva:close-circle-outline'} sx={{ mr: 2, color: "#F86F03" }} />
+              <Typography variant="body1" color="secondary">Disapprove</Typography>
+            </>
+          }
+        </MenuItem>
+        <MenuItem
           sx={{ color: 'error.main' }}
           disabled={currentUserId === id}
           onClick={() => handleOpenModal('DELETE')}
         >
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2, color: 'error.main' }} />
+          <Typography variant="body1" color="error.main">Delete</Typography>
         </MenuItem>
       </Popover>
       <ModalDialog
         title={
           openModal.action === 'DELETE'
             ? 'Delete User?'
-            : 'Confirm this action!'
+            : 'Approve this user?'
         }
         subTitle={
           openModal.action === 'DELETE'
             ? `Are you sure do you want to delete this user? He won't be able to login using this account!`
-            : `This action will change what a user can or can't access on Magerwa VCC Platform!`
+            : `This action will give a user access to this dashboard and allow a user's access to changing whatever he/she wants on the public announcements page!`
         }
         open={openModal.show}
         handleClose={handleCloseModal}
@@ -194,8 +167,8 @@ const UserListTile = ({
           if (openModal.action === 'DELETE') {
             deleteUser(id);
           } else {
-            editRole(id, {
-              role: currentRole,
+            changeAccess(id, {
+              isVerified: !isVerified ? true : false
             });
           }
           handleCloseModal();

@@ -12,13 +12,17 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  TextField,
+  FormControlLabel,
+  FormGroup,
+  Checkbox,
 } from '@mui/material';
 // components
 import Scrollbar from 'components/scrollbar';
 // sections
 import {
   UserListHead,
-  UserListTile,
+  StudentListTile,
   UserListToolbar,
 } from 'sections/user';
 import { API, useFetcher } from 'api';
@@ -26,18 +30,19 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import {
-  getUsers,
-  deleteUser,
-  editRole,
-} from 'store/actions/auth';
+  getStudents,
+  deleteStudent,
+  addStudent
+} from 'store/actions/student';
 import DataWidget from 'components/Global/DataWidget';
+import Sidebar from 'components/Global/Sidebar';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'Email', alignRight: false },
-  { id: 'isVerified', label: 'Is Approved', alignRight: false },
+  { id: 'name', label: 'Student Name', alignRight: false },
+  { id: 'regNumber', label: 'Registration Number', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
   { id: '' },
 ];
 
@@ -79,15 +84,21 @@ function applySortFilter(array, comparator, query) {
 
 const initState = { loading: false, error: null };
 
-const UsersPage = ({
-  users,
-  getUsers,
-  deleteUser,
-  editRole,
-  currentUser,
+const initFormData = {
+    firstName: '',
+    lastName: '',
+    regNumber: '',
+    studentEmail: ''
+};
+
+const StudentsPage = ({
+  students,
+  getStudents,
+  deleteStudent,
+  addStudent
 }) => {
 
-  const { data, isError, isLoading } = useFetcher('/auth');
+  const { data, isError, isLoading } = useFetcher('/student');
 
   const [page, setPage] = useState(0);
 
@@ -102,10 +113,26 @@ const UsersPage = ({
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [state, setState] = useState(initState);
+
+  const [formData, setFormData] = useState(initFormData);
+
+  const [openSidebar, setOpenSidebar] = useState(false);
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+   
+  useEffect(() => {
+      if (!isChecked) {
+          setFormData({ ...formData, studentEmail: "" });
+      }
+  }, [isChecked]);
    
   useEffect(() => {
       if (data?.registeredUsers?.length) {
-          getUsers({ users: data?.registeredUsers });
+          getStudents({ students: data?.registeredUsers });
       }
   }, [data?.registeredUsers?.length]);
 
@@ -118,13 +145,13 @@ const UsersPage = ({
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = users?.map(n => n.name);
+      const newSelecteds = students?.map(n => n.name);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
-
+  console.log(formData);
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -143,20 +170,26 @@ const UsersPage = ({
     setSelected(newSelected);
   };
 
-  const changeAccess = async (id, access) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+}
+
+  const handleAddStudent = async () => {
     setState(initState);
     try {
         setState((prev) => ({ ...prev, loading: true }));
             const result = await toast.promise(
-                API.patch(`/auth/confirmUser?userId=${id}`, access),
+                API.post(`/student`, formData),
                 {
-                    loading: `Updating user access, please wait...`,
-                    success: `User access updated successfully!`,
-                    error: `Something went wrong while updating this user's access, please try again!`
+                    loading: `Adding student, please wait...`,
+                    success: `Student added successfully!`,
+                    error: `Something went wrong while adding this student, please try again!`
                 },
                 { position: 'top-center' }
             );
-            editRole(result.data.updatedUser);
+            addStudent(result.data.addedStudent)
+            setFormData(initFormData);
+            setOpenSidebar(false);
     } catch (error) {
         setState((prev) => ({
             ...prev,
@@ -171,7 +204,7 @@ const UsersPage = ({
       setState(initState);
       try {
           setState((prev) => ({ ...prev, loading: true }));
-          await toast.promise(API.delete(`/auth?userId=${id}`), {
+          await toast.promise(API.delete(`/student?userId=${id}`), {
               loading: `Hold on, we are deleting this user from our system.`,
               success: `User deleted successfully`,
               error: (error) => {
@@ -182,7 +215,7 @@ const UsersPage = ({
                   }
               }
           });
-          deleteUser(id);
+          deleteStudent(id);
       } catch (error) {
         setState((prev) => ({
           ...prev,
@@ -209,16 +242,26 @@ const UsersPage = ({
 
   const emptyRows =
     page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - users?.length)
+      ? Math.max(0, (1 + page) * rowsPerPage - students?.length)
       : 0;
 
   const filteredUsers = applySortFilter(
-    users,
+    students,
     getComparator(order, orderBy),
     filterName,
   );
 
   const isNotFound = !filteredUsers.length && !!filterName;
+
+    const handleOpenSidebar = () => {
+    setOpenSidebar(true);
+    };
+
+    const handleCloseSidebar = () => {
+        if (state.loading) return;
+        setOpenSidebar(false);
+        setState(initState);
+    };
 
 
   return (
@@ -231,8 +274,59 @@ const UsersPage = ({
           mb={4}
         >
           <Typography variant="h3" gutterBottom>
-            Manage Staff Access
+            Manage Students Access
           </Typography>
+          <Sidebar
+                title='Add New Student'
+                openSidebar={openSidebar}
+                onOpenSidebar={() => {
+                    handleOpenSidebar();
+                }}
+                onCloseSidebar={() => {
+                    handleCloseSidebar()
+                }}
+                handleSubmit ={handleAddStudent}
+                state={state}
+            >
+                <TextField
+                    label="First Name"
+                    color="secondary"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    fullWidth
+                />
+                <TextField
+                    label="Last Name"
+                    color="secondary"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    fullWidth
+                />
+                <TextField
+                    label="Registration Number"
+                    type='number'
+                    color="secondary"
+                    name="regNumber"
+                    value={formData.regNumber}
+                    onChange={handleChange}
+                    fullWidth
+                />
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox color='secondary' checked={isChecked} onChange={handleCheckboxChange}/>} label="Notify Student" />
+                </FormGroup>
+                {isChecked && (
+                    <TextField
+                    label="Student Email"
+                    color="secondary"
+                    name="studentEmail"
+                    fullWidth
+                    value={formData.studentEmail}
+                    onChange={handleChange}
+                    />
+                )}
+            </Sidebar>
         </Stack>
 
         <Card
@@ -241,12 +335,12 @@ const UsersPage = ({
         }}
         >
           <DataWidget
-            title={'Users'}
-            isLoading={isLoading && !users?.length && !isError}
+            title={'Students'}
+            isLoading={isLoading && !students?.length && !isError}
             isError={
-              !isLoading && isError && !users?.length ? isError : null
+              !isLoading && isError && !students?.length ? isError : null
             }
-            isEmpty={!isError && !isLoading && !users?.length}
+            isEmpty={!isError && !isLoading && !students?.length}
           >
             <UserListToolbar
               numSelected={selected.length}
@@ -261,7 +355,7 @@ const UsersPage = ({
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={users?.length}
+                    rowCount={students?.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -277,15 +371,13 @@ const UsersPage = ({
                           selected.indexOf(row.name) !== -1;
 
                         return (
-                          <UserListTile
+                          <StudentListTile
                             user={row}
                             selectedUser={selectedUser}
                             key={row._id}
                             onCheckBoxClicked={event =>
                               handleClick(event, row.name)
                             }
-                            changeAccess={changeAccess}
-                            currentUserId={currentUser?._id}
                             deleteUser={handleDeleteUser}
                           />
                         );
@@ -335,7 +427,7 @@ const UsersPage = ({
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={users?.length}
+              count={students?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -349,18 +441,17 @@ const UsersPage = ({
 };
 
 const mapStateToProps = state => ({
-  users: state.auth.users,
-  currentUser: state.auth.loggedInUser,
+students: state.student.students,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUsers: (data) => dispatch(getUsers(data)), 
-    deleteUser: id => dispatch(deleteUser(id)),
-    editRole: (id, body) => dispatch(editRole(id, body)),
+    getStudents: (data) => dispatch(getStudents(data)), 
+    deleteStudent: id => dispatch(deleteStudent(id)),
+    addStudent: data => dispatch(addStudent(data)),
   };
 };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(UsersPage);
+)(StudentsPage);
