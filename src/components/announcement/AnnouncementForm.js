@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Container, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Stack, TextField, Typography,FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { API } from 'api';
 import ChooseFileImage from 'components/Global/ChooseFileImage';
 import MessageAlert from 'components/Global/MessageAlert';
@@ -15,10 +15,9 @@ import RichTextEditor from './RichTextEditor';
 
 const initFormData = {
     title: '',
-    postDescription: '',
-    postBody: '',
-    postImage: '',
-    isPublic: true
+    announcementBody: '',
+    category: '',
+    headerImage: '',
 };
 
 const initState = { loading: false, error: null };
@@ -38,11 +37,13 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
         if (currentAnnouncement) {
             setFormData({
                 title: currentAnnouncement.title,
-                postDescription: currentAnnouncement.postDescription,
-                postBody: currentAnnouncement.postBody,
-                postImage: currentAnnouncement.postImage,
-                isPublic: currentAnnouncement.isPublic
+                announcementBody: currentAnnouncement.announcementBody,
+                category: currentAnnouncement.category,
+                headerImage: currentAnnouncement.headerImage,
             });
+            if(currentAnnouncement.headerImage) {
+                setSwitchOn(true)
+            }
         } else {
             setFormData(initFormData);
         }
@@ -61,12 +62,12 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
             if (currentAnnouncement) {
                 const newObj = compareObj(currentAnnouncement, formData);
                 if (!Object.keys(newObj).length) {
-                    toast.error('No changes made', { position: 'top-right' });
+                    toast.error('No changes made on this announcement', { position: 'top-center' });
                     return;
                 }
-                const result = await toast.promise(API.patch(`/Announcement/updatePost?slug=${currentAnnouncement.slug}`, newObj), {
+                const result = await toast.promise(API.patch(`/announcement?announcementId=${currentAnnouncement._id}&isTyped=true`, newObj), {
                     loading: `Updating Announcement, please wait...`,
-                    success: `Announcement ${currentAnnouncement.title} updated successfully!`,
+                    success: `Announcement updated successfully!`,
                     error: (error) => {
                         if (error.response) {
                             return `Error: ${error.response?.data?.message}`;
@@ -75,9 +76,11 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                         }
                     }
                 });
-                editAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                editAnnouncement({ ...result.data.data, createdBy: result.data.data.createdBy });
+                setFormData(initFormData);
+                window.location.replace('/content/announcements');
             } else {
-                const result = await toast.promise(API.post(`/Announcement/create`, formData), {
+                const result = await toast.promise(API.post(`/announcement?isTyped=true`, formData), {
                     loading: `Adding Announcement, please wait...`,
                     success: `Announcement added successfully!`,
                     error: (error) => {
@@ -89,9 +92,9 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     }
                 });
                 addAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                setFormData(initFormData);
+                nav('/content/announcements');
             }
-            setFormData(initFormData);
-            nav('/content/Announcements');
         } catch (error) {
             setState((prev) => ({
                 ...prev,
@@ -104,7 +107,6 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
 
     return (
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-            {/* <MessageAlert state={state} /> */}
             <Stack spacing={1.2} sx={{ p: { xs: 0, md: 1, lg: 2 } }}>
                 <Typography variant="h3" sx={{ mb: 2 }}>
                     {currentAnnouncement ? 'Update' : 'New'} Announcement
@@ -115,16 +117,34 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     value={formData.title}
                     onChange={(e) => handleChange('title', e.target.value)}
                     fullWidth
-                    required
                 />
-                <RichTextEditor onChange={(html) => handleChange('postBody', html)} html={formData.postBody} />
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Announcement Category"
+                    value={formData.category}
+                    onChange={(e) => handleChange('category', e.target.value)}
+                >
+                    <MenuItem value="Day Session">Day Session</MenuItem>
+                    <MenuItem value="Evening Session">Evening Session</MenuItem>
+                    <MenuItem value="Weekend Session">Weekend Session</MenuItem>
+                    <MenuItem value="School of Law">School of Law</MenuItem>
+                    <MenuItem value="School of Business Management and Economic">School of Business Management and Economics</MenuItem>
+                    <MenuItem value="School of Computing and Information Technology">School of Computing and Information Technology</MenuItem>
+                    <MenuItem value="School of Education">School of Education </MenuItem>
+                    <MenuItem value="School of Graduate Studie">School of Graduate Studies</MenuItem>
+                    <MenuItem value="School of Professional and Executive Programmes">School of Professional and Executive Programmes</MenuItem>
+                    <MenuItem value="Center for Economic Governance and Leadership">Center for Economic Governance and Leadership</MenuItem>
+                    <MenuItem value="Center for Modern Languages">Center for Modern Languages</MenuItem>
+                </TextField>
+                <RichTextEditor onChange={(html) => handleChange('announcementBody', html)} html={formData.announcementBody} />
                 <IosSwitch label="Add a header Image" checked={switchOn} onChange={handleSwitchChange}/>
                 {
                     switchOn &&
                     <ChooseFileImage
-                        selected={formData.postImage}
+                        selected={formData.headerImage}
                         fullWidth
-                        onSelect={(selected) => handleChange('postImage', selected)}
+                        onSelect={(selected) => handleChange('headerImage', selected)}
                     />
                 }
                 <Box sx={{ py: 3 }}>

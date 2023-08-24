@@ -13,52 +13,52 @@ import { useFetcher } from 'api';
 import NoCrashIcon from '@mui/icons-material/NoCrash';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import TimeToLeaveIcon from '@mui/icons-material/TimeToLeave';
+import {IconUserCheck } from '@tabler/icons';
 
 import { getUsers } from 'store/actions/auth';
-import { getAllCars } from 'store/actions/cars';
-import { getAllCars as getAllAuctionCars } from 'store/actions/auction';
+import { getStudents } from 'store/actions/student';
+import { getAllAnnouncements } from 'store/actions/announcement';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = ({
     users, 
     getUsers, 
-    cars, 
-    getCars, 
-    auction, 
-    getAllAuctionCars, 
+    students, 
+    getStudents, 
+    announcements, 
+    getAllAnnouncements, 
 }) => {
     const { data: usersData, isLoading: usersLoading } = useFetcher('/auth');
-    const { data: carsData, isLoading: carsLoading } = useFetcher('/registercar?cleared=false&perPage=1000000');
-    const { data: clearedData, isLoading: clearedCarsLoading } = useFetcher('/registercar?cleared=true&perPage=1000000');
-    const { data: auctionData, isLoading: auctionLoading } = useFetcher('/auction?perPage=1000000&all=admin');
+    const { data: studentsData, isLoading: studentsLoading } = useFetcher('/student');
+    const { data: announcementsData, isLoading: announcementsLoading } = useFetcher('/announcement');
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
     }, []);
 
-    console.log(clearedData); 
     
     useEffect(() => {
       if (usersData?.registeredUsers?.length) {
         getUsers({ users: usersData?.registeredUsers });
       }
       
-      if (carsData?.data?.length) {
-        getCars({
-            registeredCars: carsData?.data
+      if (studentsData?.registeredUsers?.length) {
+        getStudents({
+            students: studentsData?.registeredUsers
         });
       }
 
-      if (auctionData?.data?.length) {
-        getAllAuctionCars({ auctionCars: auctionData?.data });
+      if (announcementsData?.data?.length) {
+        getAllAnnouncements({ announcements: announcementsData?.data });
       }
 
     
     }, [
         usersData?.registeredUsers?.length, 
-        carsData?.data?.length,
-        auctionData?.data?.length,
+        studentsData?.registeredUsers?.length,
+        announcementsData?.data?.length,
     ]);
 
     return (
@@ -66,16 +66,13 @@ const Dashboard = ({
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
                     <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <EarningCard isLoading={usersLoading} icon={<IconUsers fontSize="inherit" />} title="Registered Users" count={users?.length} />
+                        <EarningCard isLoading={usersLoading} icon={<IconUserCheck fontSize="inherit" />} title="Staff Users" count={users?.length} />
                     </Grid>
                     <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <TotalOrderLineChartCard isLoading={carsLoading} icon={<NoCrashIcon fontSize="inherit" />} title="Registered Cars" count={cars?.length} />
+                        <TotalOrderLineChartCard isLoading={studentsLoading} icon={<IconUsers fontSize="inherit" />} title="Students" count={students?.length} />
                     </Grid>
                     <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <EarningCard isLoading={auctionLoading} icon={<CarCrashIcon fontSize="inherit" />} title="Auction Cars" count={auction?.length} />
-                    </Grid>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <TotalOrderLineChartCard isLoading={clearedCarsLoading} icon={<TimeToLeaveIcon fontSize="inherit" />} title="Cleared Cars" count={clearedData?.data?.length} />
+                        <EarningCard isLoading={announcementsLoading} icon={<CampaignIcon fontSize="inherit" />} title="Announcements" count={announcements?.length} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -84,15 +81,15 @@ const Dashboard = ({
 };
 
 const mapStateToProps = (state) => ({
-    cars: state.car.registeredCars,
-    auction: state.auction.auctionCars,
+    students: state.student.students,
+    announcements: state.announcement.announcements,
     users: state.auth.users,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getCars: (data) => dispatch(getAllCars(data)),
-        getAllAuctionCars: (data) => dispatch(getAllAuctionCars(data)),
+        getStudents: (data) => dispatch(getStudents(data)),
+        getAllAnnouncements: (data) => dispatch(getAllAnnouncements(data)),
         getUsers: (data) => dispatch(getUsers(data)),
     };
 };

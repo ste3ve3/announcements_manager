@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AnnouncementForm from './AnnouncementForm';
-import UploadAnnouncement from './Upload Announcement';
+import UploadAnnouncement from './UploadAnnouncement';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,27 +40,41 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({ currentAnnouncement }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Type Announcement" {...a11yProps(0)} />
-          <Tab label="Upload Announcement" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <AnnouncementForm />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <UploadAnnouncement />
-      </CustomTabPanel>
-    </Box>
+    <>
+      {
+        currentAnnouncement ?
+          <Box sx={{ width: '100%' }}>
+            {
+              currentAnnouncement?.announcementFile ?
+                <UploadAnnouncement currentAnnouncement={currentAnnouncement}/>
+              :
+                <AnnouncementForm currentAnnouncement={currentAnnouncement}/>
+            }
+          </Box>
+          :
+          <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tab label="Type Announcement" {...a11yProps(0)} />
+                <Tab label="Upload Announcement" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+              <AnnouncementForm currentAnnouncement={currentAnnouncement}/>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              <UploadAnnouncement currentAnnouncement={currentAnnouncement}/>
+            </CustomTabPanel>
+          </Box>
+      }
+    </>
   );
 }

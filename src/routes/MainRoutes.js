@@ -7,6 +7,7 @@ import NotFound from 'views/pages/NotFound';
 import UsersPage from 'views/dashboard/members/UsersPage';
 import StudentsPage from 'views/dashboard/members/StudentsPage';
 import AddAnnouncement from 'components/announcement/AddAnnouncement';
+import EditAnnouncement from 'components/announcement/EditAnnouncement';
 import AnnouncementPage from 'views/pages/AnnouncementPage';
 
 // dashboard routing
@@ -50,6 +51,12 @@ const MainRoutes = {
                 {
                     path: 'announcements',
                     element: <AnnouncementPage />
+                },
+                {
+                    path: 'announcement',
+                    children: [
+                        { path: '', children: [{ path: ':id', element: <EditAnnouncement /> }] }
+                    ]
                 },
                 {
                     path: 'addAnnouncemment',

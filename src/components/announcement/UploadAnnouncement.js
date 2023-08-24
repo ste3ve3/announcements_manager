@@ -1,8 +1,6 @@
-import { Box, Button, CircularProgress, Container, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Stack, TextField, Typography, Chip } from '@mui/material';
 import { API } from 'api';
-import ChooseFileImage from 'components/Global/ChooseFileImage';
-import MessageAlert from 'components/Global/MessageAlert';
-import IosSwitch from 'components/extended/IosSwitch';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -11,14 +9,10 @@ import { connect } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addAnnouncement, editAnnouncement } from 'store/actions/announcement';
 import { compareObj } from 'utils/constants';
-import RichTextEditor from './RichTextEditor';
+import ChooseFileField from './ChooseFileField';
 
 const initFormData = {
-    title: '',
-    postDescription: '',
-    postBody: '',
-    postImage: '',
-    isPublic: true
+    announcementFile: '',
 };
 
 const initState = { loading: false, error: null };
@@ -28,30 +22,21 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
 
     const [formData, setFormData] = useState(initFormData);
     const [state, setState] = useState(initState);
-    const [switchOn, setSwitchOn] = useState(false);
-
-    const handleSwitchChange = () => {
-        setSwitchOn(!switchOn);
-      };
 
     useEffect(() => {
         if (currentAnnouncement) {
             setFormData({
-                title: currentAnnouncement.title,
-                postDescription: currentAnnouncement.postDescription,
-                postBody: currentAnnouncement.postBody,
-                postImage: currentAnnouncement.postImage,
-                isPublic: currentAnnouncement.isPublic
+                announcementFile: currentAnnouncement.announcementFile
             });
         } else {
             setFormData(initFormData);
         }
     }, [currentAnnouncement]);
 
-    const handleChange = (name, value) => {
-        setFormData((prev) => ({ ...prev, [name]: value }));
+    const handleChange = (name, selectedFiles) => {
+        setFormData((prev) => ({ ...prev, [name]: selectedFiles }));
     };
-
+    console.log(currentAnnouncement);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (state.loading) return;
@@ -61,12 +46,12 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
             if (currentAnnouncement) {
                 const newObj = compareObj(currentAnnouncement, formData);
                 if (!Object.keys(newObj).length) {
-                    toast.error('No changes made', { position: 'top-right' });
+                    toast.error('No changes made on the file!', { position: 'top-center' });  
                     return;
                 }
-                const result = await toast.promise(API.patch(`/Announcement/updatePost?slug=${currentAnnouncement.slug}`, newObj), {
+                const result = await toast.promise(API.patch(`/announcement?announcementId=${currentAnnouncement._id}`, newObj), {
                     loading: `Updating Announcement, please wait...`,
-                    success: `Announcement ${currentAnnouncement.title} updated successfully!`,
+                    success: `Announcement updated successfully!`,
                     error: (error) => {
                         if (error.response) {
                             return `Error: ${error.response?.data?.message}`;
@@ -75,9 +60,11 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                         }
                     }
                 });
-                editAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                editAnnouncement({ ...result.data.data, createdBy: result.data.data.createdBy });
+                setFormData(initFormData);
+                window.location.replace('/content/announcements');
             } else {
-                const result = await toast.promise(API.post(`/Announcement/create`, formData), {
+                const result = await toast.promise(API.post(`/announcement`, formData), {
                     loading: `Adding Announcement, please wait...`,
                     success: `Announcement added successfully!`,
                     error: (error) => {
@@ -89,9 +76,9 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                     }
                 });
                 addAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                setFormData(initFormData);
+                nav('/content/announcements');
             }
-            setFormData(initFormData);
-            nav('/content/Announcements');
         } catch (error) {
             setState((prev) => ({
                 ...prev,
@@ -104,15 +91,30 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
 
     return (
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-            {/* <MessageAlert state={state} /> */}
             <Stack spacing={1.2} sx={{ p: { xs: 0, md: 1, lg: 2 } }}>
                 <Typography variant="h3" sx={{ mb: 2 }}>
                     {currentAnnouncement ? 'Update' : 'New'} Announcement
                 </Typography>
-                <ChooseFileImage
-                    selected={formData.postImage}
-                    fullWidth
-                    onSelect={(selected) => handleChange('postImage', selected)}
+                {
+                    currentAnnouncement &&
+                    <a
+                        href={currentAnnouncement.announcementFile}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <Chip
+                        clickable
+                        icon={<PictureAsPdfIcon />}
+                        label="Current announcement File"
+                        />
+                    </a>
+                }
+                <ChooseFileField
+                    label="Announcement File"
+                    error={state.error}
+                    isMultiple={false}
+                    onChange={(selectedFiles) => handleChange('announcementFile', selectedFiles)}
                 />
                 <Box sx={{ py: 3 }}>
                     <Button
@@ -120,6 +122,7 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                         color="secondary"
                         variant="contained"
                         sx={{ color: '#ffffff' }}
+                        disabled={formData.announcementFile == ""}
                         startIcon={state.loading ? <CircularProgress size={20} color="inherit" /> : undefined}
                     >
                         {state.loading ? 'Loading...' : currentAnnouncement ? 'Update Announcement' : 'Add Announcement'}

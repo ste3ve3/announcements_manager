@@ -1,3 +1,4 @@
+import React from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import {
   Avatar,
@@ -5,12 +6,18 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography,
+  Chip
 } from "@mui/material";
 import { useState } from "react";
 import ModalDialog from "components/Global/ModalDialog";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { deepOrange, green } from '@mui/material/colors';
+import { useNavigate } from "react-router";
 
-const AnnouncementTile = ({ announcement, index, onDelete, onEdit }) => {
+const AnnouncementTile = ({ announcement, index, onDelete }) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -20,14 +27,54 @@ const AnnouncementTile = ({ announcement, index, onDelete, onEdit }) => {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar>{`${index + 1}`}</Avatar>
+        <Avatar variant="square" sx={{width: 35, height: 35, bgcolor: green[500], color:"white"}}>{`${index + 1}`}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={announcement.announcementTitle}
-        secondary={announcement.announcementDescription}
+        primary={
+          <React.Fragment>
+              {announcement.announcementFile ?
+              <a
+                href={announcement.announcementFile}
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
+                <Chip
+                  clickable
+                  icon={<PictureAsPdfIcon />}
+                  label="Announcement File"
+                />
+              </a>
+                :
+              <Typography
+                fontSize="medium"
+                fontWeight="semiBold"
+                color="initial"
+              >
+                {announcement.title}
+              </Typography>
+            }
+          </React.Fragment>
+        }
+        secondary={
+          <React.Fragment>
+              <Typography
+                component="span"
+                fontSize="small"
+                color="initial"
+                display="flex"
+                alignItems="center"
+                gap={1}
+                marginTop={1}
+              >
+                <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30, color: "white" }}>{announcement.createdBy.firstName.charAt(0)}</Avatar>
+                {announcement.createdBy.firstName +" "+ announcement.createdBy.lastName}
+              </Typography>
+          </React.Fragment>
+        } 
       />
       <ListItemAvatar>
-        <IconButton aria-label="edit" color="info" onClick={onEdit}>
+        <IconButton aria-label="edit" color="info" onClick={() => navigate(`/content/announcement/${announcement._id}`)}>
           <Edit fontSize="inherit" />
         </IconButton>
         <IconButton aria-label="delete" color="error" onClick={handleOpen}>
