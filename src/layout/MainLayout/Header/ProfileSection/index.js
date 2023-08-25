@@ -42,7 +42,7 @@ const StyledAccount = styled('div')(({ theme }) => ({
     alignItems: 'center',
     padding: theme.spacing(2, 2.5),
     borderRadius: Number(theme.shape.borderRadius) * 1.5,
-    backgroundColor: alpha('#d1f1f8', 0.70),
+    backgroundColor: alpha('#FF8B13', 0.70),
   }));
 
 const ProfileSection = ({ loggedInUser, getUser }) => {
@@ -149,7 +149,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                             alignItems: 'center',
                             cursor: 'pointer',
                             color: 'white',
-                            background: '#023C45'
+                            background: '#FF8B13'
                         }}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -159,7 +159,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                         {loggedInUser?.names?.charAt(0)}
                     </Avatar>
                 }
-                label={<IconSettings stroke={1.5} size="1.5rem" color='rgb(0, 180, 208)' />}
+                label={<IconSettings stroke={1.5} size="1.5rem" color='#FF8B13' />}
                 variant="outlined"
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
@@ -211,7 +211,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     color: 'white',
-                                                    background: '#FFB84C'
+                                                    background: '#FF8B13'
                                                 }} 
                                                 alt={loggedInUser?.firstName}
                                                 >
@@ -236,34 +236,6 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                             </StyledAccount>
                                             </Link>
                                         </Box>
-                                            {/* <Divider />
-                                            <Card
-                                                sx={{
-                                                    bgcolor: theme.palette.primary.light,
-                                                    my: 2
-                                                }}
-                                            >
-                                                <CardContent>
-                                                    <Grid container spacing={3} direction="column">
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Allow Notifications</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        checked={notification}
-                                                                        onChange={(e) => setNotification(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                            <Divider /> */}
                                             <List
                                                 component="nav"
                                                 sx={{
@@ -281,16 +253,6 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                 }}
                                             >
                                                 <Link href={process.env.REACT_APP_CLIENT_URL} underline='none' target='__blank'>
-                                                <ListItemButton
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 0}
-                                                    
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconLogout stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Go to Website</Typography>} />
-                                                </ListItemButton>
                                                 </Link>
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}

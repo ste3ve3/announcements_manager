@@ -41,7 +41,7 @@ const Login = () => {
                                                         variant='h3'
                                                         textAlign='center'
                                                     >
-                                                        Announcements Manager Portal
+                                                        Announcements Management Portal
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"

@@ -48,7 +48,7 @@ const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme 
 const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => ({
     ...theme.typography.commonAvatar,
     ...theme.typography.mediumAvatar,
-    background: theme.palette.secondary.light,
+    background: "#F86F03",
     color: theme.palette.secondary.dark,
     '&:hover': {
         background: theme.palette.secondary.dark,
@@ -62,7 +62,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
 
     return (
-        <Typography>Announcements Manager Portal</Typography>
+        <Typography>Announcements Management Portal</Typography>
     );
 };
 
@@ -81,7 +81,7 @@ const SearchSection = () => {
     return (
         <>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Announcements Manager Portal</Typography>
+            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Announcements Management Portal</Typography>
             </Box>
         </>
     );
