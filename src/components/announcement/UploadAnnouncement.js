@@ -12,6 +12,7 @@ import { compareObj } from 'utils/constants';
 import ChooseFileField from './ChooseFileField';
 
 const initFormData = {
+    title: '',
     announcementFile: '',
 };
 
@@ -26,7 +27,8 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
     useEffect(() => {
         if (currentAnnouncement) {
             setFormData({
-                announcementFile: currentAnnouncement.announcementFile
+                title: currentAnnouncement.title,
+                announcementFile: currentAnnouncement.announcementFile,
             });
         } else {
             setFormData(initFormData);
@@ -36,7 +38,6 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
     const handleChange = (name, selectedFiles) => {
         setFormData((prev) => ({ ...prev, [name]: selectedFiles }));
     };
-    console.log(currentAnnouncement);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (state.loading) return;
@@ -60,7 +61,7 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                         }
                     }
                 });
-                editAnnouncement({ ...result.data.data, createdBy: result.data.data.createdBy });
+                editAnnouncement({ ...result.data.data, staffCreator: result.data.data.staffCreator });
                 setFormData(initFormData);
                 window.location.replace('/content/announcements');
             } else {
@@ -75,7 +76,7 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                         }
                     }
                 });
-                addAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                addAnnouncement({ ...result.data.data, postCreator: result.data.data.staffCreator });
                 setFormData(initFormData);
                 nav('/content/announcements');
             }
@@ -95,6 +96,13 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                 <Typography variant="h3" sx={{ mb: 2 }}>
                     {currentAnnouncement ? 'Update' : 'New'} Announcement
                 </Typography>
+                <TextField
+                    label="Title"
+                    color="secondary"
+                    value={formData.title}
+                    onChange={(e) => handleChange('title', e.target.value)}
+                    fullWidth
+                />
                 {
                     currentAnnouncement &&
                     <a

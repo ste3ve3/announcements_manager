@@ -11,14 +11,14 @@ export default function themePalette(theme) {
         },
         primary: {
             light: theme.colors?.primaryLight,
-            main: "#F86F03",
+            main: "#84cdee",
             dark: theme.colors?.primaryDark,
             200: theme.colors?.primary200,
             800: theme.colors?.primary800
         },
         secondary: {
             light: theme.colors?.secondaryLight,
-            main: '#F86F03',
+            main: '#84cdee',
             dark: theme.colors?.secondaryDark,
             200: theme.colors?.secondary200,
             800: theme.colors?.secondary800

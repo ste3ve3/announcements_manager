@@ -17,7 +17,8 @@ import {
     OutlinedInput,
     TextField,
     Typography,
-    useMediaQuery
+    useMediaQuery,
+    MenuItem
 } from '@mui/material';
 import { API } from 'api';
 import { toast } from 'react-hot-toast';
@@ -39,6 +40,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const initFormData = {
     firstName: '',
     lastName: '',
+    role: '',
     email: '',
     password: ''
 };
@@ -163,6 +165,21 @@ const FirebaseRegister = ({ ...others }) => {
                         inputProps={{}}
                     />
                 </FormControl>
+
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label={formData.role == "" ? "Role" : ""}
+                    value={formData.role}
+                    fullWidth
+                    sx={{ ...theme.typography.customInput }}
+                    onChange={(e) => handleChange('role', e.target.value)}
+                >
+                    <MenuItem value="Principal">Principal</MenuItem>
+                    <MenuItem value="Dean">Dean of School</MenuItem>
+                    <MenuItem value="HOD">Head Of Department</MenuItem>
+                    <MenuItem value="Teacher">Teacher</MenuItem>
+                </TextField>
 
                 <FormControl
                     fullWidth

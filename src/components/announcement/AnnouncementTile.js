@@ -32,28 +32,13 @@ const AnnouncementTile = ({ announcement, index, onDelete }) => {
       <ListItemText
         primary={
           <React.Fragment>
-              {announcement.announcementFile ?
-              <a
-                href={announcement.announcementFile}
-                target="_blank"
-                rel="noreferrer"
-                style={{ textDecoration: 'none' }}
-              >
-                <Chip
-                  clickable
-                  icon={<PictureAsPdfIcon />}
-                  label="Announcement File"
-                />
-              </a>
-                :
-              <Typography
-                fontSize="medium"
-                fontWeight="semiBold"
-                color="initial"
-              >
-                {announcement.title}
-              </Typography>
-            }
+            <Typography
+              fontSize="medium"
+              fontWeight="semiBold"
+              color="initial"
+            >
+              {announcement.title}
+            </Typography>
           </React.Fragment>
         }
         secondary={
@@ -67,8 +52,8 @@ const AnnouncementTile = ({ announcement, index, onDelete }) => {
                 gap={1}
                 marginTop={1}
               >
-                <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30, color: "white" }}>{announcement.createdBy.firstName.charAt(0)}</Avatar>
-                {announcement.createdBy.firstName +" "+ announcement.createdBy.lastName}
+                <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30, color: "white" }}>{announcement.staffCreator?.firstName.charAt(0)}</Avatar>
+                {announcement.staffCreator?.firstName +" "+ announcement.staffCreator?.lastName}
               </Typography>
           </React.Fragment>
         } 

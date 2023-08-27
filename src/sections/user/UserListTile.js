@@ -35,6 +35,7 @@ const UserListTile = ({
     firstName,
     lastName,
     email,
+    role,
     isVerified,
   } = user;
 
@@ -76,7 +77,7 @@ const UserListTile = ({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={firstName} sx={{background: "#F86F03", color: "white"}}>
+            <Avatar alt={firstName} sx={{background: "#84cdee", color: "white"}}>
                {firstName.charAt(0)}
             </Avatar>
             <Typography variant="subtitle1" noWrap>
@@ -88,6 +89,12 @@ const UserListTile = ({
         <TableCell align="left">
           <Link color="inherit" underline="hover">
             {email}
+          </Link>
+        </TableCell>
+
+        <TableCell align="left">
+          <Link color="inherit" underline="hover">
+            {role}
           </Link>
         </TableCell>
 
@@ -136,7 +143,7 @@ const UserListTile = ({
             </>
               :
             <>
-              <Iconify icon={'eva:close-circle-outline'} sx={{ mr: 2, color: "#F86F03" }} />
+              <Iconify icon={'eva:close-circle-outline'} sx={{ mr: 2, color: "#84cdee" }} />
               <Typography variant="body1" color="secondary">Disapprove</Typography>
             </>
           }

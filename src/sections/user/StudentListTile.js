@@ -74,7 +74,7 @@ import {
   
           <TableCell component="th" scope="row" padding="none">
             <Stack direction="row" alignItems="center" spacing={2}>
-              <Avatar alt={firstName} sx={{background: "#F86F03", color: "white"}}>
+              <Avatar alt={firstName} sx={{background: "#84cdee", color: "white"}}>
                  {firstName.charAt(0)}
               </Avatar>
               <Typography variant="subtitle1" noWrap>

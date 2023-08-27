@@ -13,7 +13,7 @@ const EditAnnouncement = () => {
     const { id } = useParams();
     const [state, setState] = useState(initState);
     const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
-
+    
     const getAnnouncement = useCallback(async (id) => {
         try {
             setState((prev) => ({ ...prev, loading: true }));

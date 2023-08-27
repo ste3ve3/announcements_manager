@@ -76,7 +76,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                         }
                     }
                 });
-                editAnnouncement({ ...result.data.data, createdBy: result.data.data.createdBy });
+                editAnnouncement({ ...result.data.data, staffCreator: result.data.data.staffCreator });
                 setFormData(initFormData);
                 window.location.replace('/content/announcements');
             } else {
@@ -91,7 +91,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                         }
                     }
                 });
-                addAnnouncement({ ...result.data.data, postCreator: result.data.data.createdBy });
+                addAnnouncement({ ...result.data.data, postCreator: result.data.data.staffCreator });
                 setFormData(initFormData);
                 nav('/content/announcements');
             }
@@ -125,9 +125,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     value={formData.category}
                     onChange={(e) => handleChange('category', e.target.value)}
                 >
-                    <MenuItem value="Day Session">Day Session</MenuItem>
-                    <MenuItem value="Evening Session">Evening Session</MenuItem>
-                    <MenuItem value="Weekend Session">Weekend Session</MenuItem>
+                    <MenuItem value="School of Law">All</MenuItem>
                     <MenuItem value="School of Law">School of Law</MenuItem>
                     <MenuItem value="School of Business Management and Economic">School of Business Management and Economics</MenuItem>
                     <MenuItem value="School of Computing and Information Technology">School of Computing and Information Technology</MenuItem>

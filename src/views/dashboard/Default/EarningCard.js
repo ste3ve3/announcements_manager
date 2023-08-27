@@ -10,7 +10,7 @@ import MainCard from 'components/cards/MainCard';
 import SkeletonEarningCard from 'components/cards/Skeleton/EarningCard';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-    backgroundColor: "#F86F03",
+    backgroundColor: "#84cdee",
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',

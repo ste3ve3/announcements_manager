@@ -23,7 +23,7 @@ const Login = () => {
                                 <Grid container spacing={2} alignItems="center" justifyContent="center" >
                                     <Grid item sx={{ mb: 3 }}>
                                         <Link to="/">
-                                            <Logo dimension={200}/>
+                                            <Logo dimension={100}/>
                                         </Link>
                                     </Grid>
                                     <Grid item xs={12}>

@@ -37,6 +37,7 @@ import DataWidget from 'components/Global/DataWidget';
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
   { id: 'isVerified', label: 'Is Approved', alignRight: false },
   { id: '' },
 ];
