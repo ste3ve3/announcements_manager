@@ -287,6 +287,7 @@ const UsersPage = ({
                             }
                             changeAccess={changeAccess}
                             currentUserId={currentUser?._id}
+                            currentUserRole={currentUser?.role}
                             deleteUser={handleDeleteUser}
                           />
                         );

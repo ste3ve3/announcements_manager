@@ -18,7 +18,7 @@ const AuthCardWrapper = ({ children, ...other }) => (
                 flexBasis: '50%',
             },
             boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.1)'
-        }}
+        }} 
         content={false}
         {...other}
     >

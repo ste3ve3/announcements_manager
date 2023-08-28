@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Container, Stack, TextField, Typography, Chip } from '@mui/material';
+import { Box, Button, CircularProgress, MenuItem, Stack, TextField, Typography, Chip } from '@mui/material';
 import { API } from 'api';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import React from 'react';
@@ -13,6 +13,7 @@ import ChooseFileField from './ChooseFileField';
 
 const initFormData = {
     title: '',
+    category: '',
     announcementFile: '',
 };
 
@@ -28,6 +29,7 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
         if (currentAnnouncement) {
             setFormData({
                 title: currentAnnouncement.title,
+                category: currentAnnouncement.category,
                 announcementFile: currentAnnouncement.announcementFile,
             });
         } else {
@@ -103,6 +105,23 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                     onChange={(e) => handleChange('title', e.target.value)}
                     fullWidth
                 />
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Announcement Category"
+                    value={formData.category}
+                    onChange={(e) => handleChange('category', e.target.value)}
+                >
+                    <MenuItem value="All">All</MenuItem>
+                    <MenuItem value="School of Law">School of Law</MenuItem>
+                    <MenuItem value="School of Business Management and Economic">School of Business Management and Economics</MenuItem>
+                    <MenuItem value="School of Computing and Information Technology">School of Computing and Information Technology</MenuItem>
+                    <MenuItem value="School of Education">School of Education </MenuItem>
+                    <MenuItem value="School of Graduate Studie">School of Graduate Studies</MenuItem>
+                    <MenuItem value="School of Professional and Executive Programmes">School of Professional and Executive Programmes</MenuItem>
+                    <MenuItem value="Center for Economic Governance and Leadership">Center for Economic Governance and Leadership</MenuItem>
+                    <MenuItem value="Center for Modern Languages">Center for Modern Languages</MenuItem>
+                </TextField>
                 {
                     currentAnnouncement &&
                     <a
@@ -130,7 +149,7 @@ const UploadAnnouncement = ({ currentAnnouncement, addAnnouncement, editAnnounce
                         color="secondary"
                         variant="contained"
                         sx={{ color: '#ffffff' }}
-                        disabled={formData.announcementFile == ""}
+                        disabled={formData.announcementFile == "" || formData.title == "" || formData.category == ""}
                         startIcon={state.loading ? <CircularProgress size={20} color="inherit" /> : undefined}
                     >
                         {state.loading ? 'Loading...' : currentAnnouncement ? 'Update Announcement' : 'Add Announcement'}

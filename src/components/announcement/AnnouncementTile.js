@@ -27,7 +27,7 @@ const AnnouncementTile = ({ announcement, index, onDelete }) => {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar variant="square" sx={{width: 35, height: 35, bgcolor: green[500], color:"white"}}>{`${index + 1}`}</Avatar>
+        <Avatar variant="square" sx={{width: 35, height: 35, bgcolor: "#A84448", color:"white"}}>{`${index + 1}`}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={
@@ -52,7 +52,7 @@ const AnnouncementTile = ({ announcement, index, onDelete }) => {
                 gap={1}
                 marginTop={1}
               >
-                <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30, color: "white" }}>{announcement.staffCreator?.firstName.charAt(0)}</Avatar>
+                <Avatar sx={{ bgcolor: "#84cdee", width: 30, height: 30, color: "white" }}>{announcement.staffCreator?.firstName.charAt(0)}</Avatar>
                 {announcement.staffCreator?.firstName +" "+ announcement.staffCreator?.lastName}
               </Typography>
           </React.Fragment>

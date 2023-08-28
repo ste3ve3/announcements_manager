@@ -42,7 +42,7 @@ const StyledAccount = styled('div')(({ theme }) => ({
     alignItems: 'center',
     padding: theme.spacing(2, 2.5),
     borderRadius: Number(theme.shape.borderRadius) * 1.5,
-    backgroundColor: alpha('#FF8B13', 0.70),
+    backgroundColor: alpha('#A84448', 0.70),
   }));
 
 const ProfileSection = ({ loggedInUser, getUser }) => {
@@ -149,7 +149,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                             alignItems: 'center',
                             cursor: 'pointer',
                             color: 'white',
-                            background: '#FF8B13'
+                            background: '#A84448'
                         }}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -159,7 +159,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                         {loggedInUser?.names?.charAt(0)}
                     </Avatar>
                 }
-                label={<IconSettings stroke={1.5} size="1.5rem" color='#FF8B13' />}
+                label={<IconSettings stroke={1.5} size="1.5rem" color='#A84448' />}
                 variant="outlined"
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
@@ -211,7 +211,7 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     color: 'white',
-                                                    background: '#FF8B13'
+                                                    background: '#A84448'
                                                 }} 
                                                 alt={loggedInUser?.firstName}
                                                 >
@@ -221,16 +221,16 @@ const ProfileSection = ({ loggedInUser, getUser }) => {
                                                 <Box sx={{ ml: 2 }}>
                                                 <Typography
                                                     variant="subtitle1"
-                                                    sx={{ color: 'text.primary', font: 'bold' }}
+                                                    sx={{ color: 'white', font: 'bold' }}
                                                 >
                                                     {loggedInUser?.firstName +" "+ loggedInUser?.lastName}
                                                 </Typography>
 
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: 'text.secondary' }}
+                                                    sx={{ color: 'whitesmoke' }}
                                                 >
-                                                    Staff Admin
+                                                    {loggedInUser?.role}
                                                 </Typography>
                                                 </Box>
                                             </StyledAccount>

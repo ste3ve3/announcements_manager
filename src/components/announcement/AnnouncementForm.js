@@ -125,7 +125,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     value={formData.category}
                     onChange={(e) => handleChange('category', e.target.value)}
                 >
-                    <MenuItem value="School of Law">All</MenuItem>
+                    <MenuItem value="All">All</MenuItem>
                     <MenuItem value="School of Law">School of Law</MenuItem>
                     <MenuItem value="School of Business Management and Economic">School of Business Management and Economics</MenuItem>
                     <MenuItem value="School of Computing and Information Technology">School of Computing and Information Technology</MenuItem>
@@ -136,7 +136,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     <MenuItem value="Center for Modern Languages">Center for Modern Languages</MenuItem>
                 </TextField>
                 <RichTextEditor onChange={(html) => handleChange('announcementBody', html)} html={formData.announcementBody} />
-                <IosSwitch label="Add a header Image" checked={switchOn} onChange={handleSwitchChange}/>
+                {/* <IosSwitch label="Add a header Image" checked={switchOn} onChange={handleSwitchChange}/>
                 {
                     switchOn &&
                     <ChooseFileImage
@@ -144,7 +144,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                         fullWidth
                         onSelect={(selected) => handleChange('headerImage', selected)}
                     />
-                }
+                } */}
                 <Box sx={{ py: 3 }}>
                     <Button
                         type="submit"

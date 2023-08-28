@@ -305,7 +305,6 @@ const StudentsPage = ({
                 />
                 <TextField
                     label="Registration Number"
-                    type='number'
                     color="secondary"
                     name="regNumber"
                     value={formData.regNumber}

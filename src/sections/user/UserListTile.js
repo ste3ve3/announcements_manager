@@ -28,6 +28,7 @@ const UserListTile = ({
   onCheckBoxClicked,
   changeAccess,
   currentUserId,
+  currentUserRole,
   deleteUser,
 }) => {
   const {
@@ -131,8 +132,7 @@ const UserListTile = ({
         }}
       >
         <MenuItem
-          // sx={{ color: 'error.main' }}
-          disabled={currentUserId === id}
+          disabled={currentUserId === id || currentUserRole !== "Principle"}
           onClick={() => handleOpenModal('APPROVED')}
         >
           {
@@ -143,14 +143,14 @@ const UserListTile = ({
             </>
               :
             <>
-              <Iconify icon={'eva:close-circle-outline'} sx={{ mr: 2, color: "#84cdee" }} />
-              <Typography variant="body1" color="secondary">Disapprove</Typography>
+              <Iconify icon={'eva:close-circle-outline'} sx={{ mr: 2, color: "error.main" }} />
+              <Typography variant="body1" color="error.main">Disapprove</Typography>
             </>
           }
         </MenuItem>
         <MenuItem
           sx={{ color: 'error.main' }}
-          disabled={currentUserId === id}
+          disabled={currentUserId === id  || currentUserRole !== "Principle"}
           onClick={() => handleOpenModal('DELETE')}
         >
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2, color: 'error.main' }} />

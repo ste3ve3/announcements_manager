@@ -37,7 +37,7 @@ const EarningCard = ({ isLoading, icon, title, count }) => {
                                             sx={{
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
-                                                backgroundColor: "#D45D03",
+                                                backgroundColor: "#50b8e7",
                                                 mt: 1,
                                                 color: '#fff'
                                             }}
