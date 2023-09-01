@@ -126,6 +126,7 @@ const AnnouncementForm = ({ currentAnnouncement, addAnnouncement, editAnnounceme
                     onChange={(e) => handleChange('category', e.target.value)}
                 >
                     <MenuItem value="All">All</MenuItem>
+                    <MenuItem value="School of Computing and IT">School of Computing and IT</MenuItem>
                     <MenuItem value="School of Law">School of Law</MenuItem>
                     <MenuItem value="School of Business Management and Economic">School of Business Management and Economics</MenuItem>
                     <MenuItem value="School of Computing and Information Technology">School of Computing and Information Technology</MenuItem>

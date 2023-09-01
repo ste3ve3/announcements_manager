@@ -175,10 +175,13 @@ const FirebaseRegister = ({ ...others }) => {
                     sx={{ ...theme.typography.customInput }}
                     onChange={(e) => handleChange('role', e.target.value)}
                 >
+                    <MenuItem value="Principal">Chancellor</MenuItem>
                     <MenuItem value="Principal">Principal</MenuItem>
-                    <MenuItem value="Dean">Dean of School</MenuItem>
+                    <MenuItem value="Dean">Dean</MenuItem>
                     <MenuItem value="HOD">Head Of Department</MenuItem>
-                    <MenuItem value="Teacher">Teacher</MenuItem>
+                    <MenuItem value="Register">Register</MenuItem>
+                    <MenuItem value="Chief of Finance">Chief of Finance</MenuItem>
+                    <MenuItem value="DVCA">DVCA</MenuItem>
                 </TextField>
 
                 <FormControl
