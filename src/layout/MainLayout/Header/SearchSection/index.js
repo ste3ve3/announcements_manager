@@ -62,7 +62,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
 
     return (
-        <Typography>Announcements Management Portal</Typography>
+        <Typography>Student Announcements Management</Typography>
     );
 };
 
@@ -81,7 +81,7 @@ const SearchSection = () => {
     return (
         <>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Announcements Management Portal</Typography>
+            <Typography variant='h2' sx={{ marginLeft: 4}} color='secondary'>Student Announcements Management</Typography>
             </Box>
         </>
     );
